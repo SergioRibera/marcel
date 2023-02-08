@@ -1,24 +1,12 @@
 //! Pick list theme.
 
-
-
 pub(crate) mod serial;
 
+use crate::{Border, Color, Theme};
 
+use iced_native::widget::pick_list::{Appearance, StyleSheet};
 
-use crate::{ Border, Color, Theme };
-
-use iced_native::{
-    widget::{
-        pick_list::{
-            Appearance, StyleSheet,
-        },
-    },
-};
-
-use serial::{ MenuComponent, StateComponent };
-
-
+use serial::{MenuComponent, StateComponent};
 
 #[derive(Clone, Copy, Debug)]
 pub struct Picklist {
@@ -33,12 +21,12 @@ impl Picklist {
     /// Attempts to create a theme from its serialized version.
     pub(crate) fn create(serial: &serial::Picklist, theme: &Theme) -> Result<Self, ()> {
         // Get all the themes.
-        let active   = Self::state( &serial.active  , theme, 0 )?;
-        let hovered  = Self::state( &serial.hovered , theme, 1 )?;
+        let active = Self::state(&serial.active, theme, 0)?;
+        let hovered = Self::state(&serial.hovered, theme, 1)?;
 
         // Get the menu style.
-        let menu = Self::menu( &serial.menu, theme )?;
-        
+        let menu = Self::menu(&serial.menu, theme)?;
+
         // Find the first state theme that is not None.
         let default = match (active, hovered) {
             (Some(d), _) => d,
@@ -49,33 +37,45 @@ impl Picklist {
 
         Ok(Picklist {
             state: [
-                if active.is_some()   { active.unwrap()   } else { default },
-                if hovered.is_some()  { hovered.unwrap()  } else { default },
+                if active.is_some() {
+                    active.unwrap()
+                } else {
+                    default
+                },
+                if hovered.is_some() {
+                    hovered.unwrap()
+                } else {
+                    default
+                },
             ],
 
             menu,
         })
     }
 
-    fn state(serial: &serial::StateComponent, theme: &Theme, index: usize) -> Result<Option<State>, ()> {
+    fn state(
+        serial: &serial::StateComponent,
+        theme: &Theme,
+        index: usize,
+    ) -> Result<Option<State>, ()> {
         match serial {
-            StateComponent::Defined( state ) => Ok( Some( State::from(&state, &theme)? ) ),
+            StateComponent::Defined(state) => Ok(Some(State::from(&state, &theme)?)),
 
-            StateComponent::Inherited( name ) => match theme.picklist.get( name ) {
-                Some( picklist ) => Ok( Some( picklist.state[index].clone() ) ),
+            StateComponent::Inherited(name) => match theme.picklist.get(name) {
+                Some(picklist) => Ok(Some(picklist.state[index].clone())),
                 _ => Err(()),
             },
 
-            StateComponent::None => Ok( None ),
+            StateComponent::None => Ok(None),
         }
     }
 
     fn menu(serial: &serial::MenuComponent, theme: &Theme) -> Result<Menu, ()> {
         match serial {
-            MenuComponent::Defined( state ) => Ok( Menu::from(&state, &theme)? ),
+            MenuComponent::Defined(state) => Ok(Menu::from(&state, &theme)?),
 
-            MenuComponent::Inherited( name ) => match theme.picklist.get( name ) {
-                Some( picklist ) => Ok( picklist.menu.clone() ),
+            MenuComponent::Inherited(name) => match theme.picklist.get(name) {
+                Some(picklist) => Ok(picklist.menu.clone()),
                 _ => Err(()),
             },
         }
@@ -110,12 +110,10 @@ impl StyleSheet for Picklist {
     }
 }
 
-
-
 #[derive(Clone, Copy, Debug)]
 pub struct State {
     /// Background color.
-    pub background: Color, 
+    pub background: Color,
 
     /// Text color.
     pub text: Color,
@@ -162,10 +160,15 @@ impl State {
             _ => return Err(()),
         };
 
-        Ok( State { background, text, placeholder, border, handle } )
+        Ok(State {
+            background,
+            text,
+            placeholder,
+            border,
+            handle,
+        })
     }
 }
-
 
 #[derive(Clone, Copy, Debug)]
 pub struct Menu {
@@ -210,6 +213,10 @@ impl Menu {
             _ => return Err(()),
         };
 
-        Ok( Menu { background: [background, sbackground], text: [text, stext], border } )
+        Ok(Menu {
+            background: [background, sbackground],
+            text: [text, stext],
+            border,
+        })
     }
 }

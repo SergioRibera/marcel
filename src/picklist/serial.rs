@@ -1,10 +1,6 @@
 //! `serde` compatible version of the pick list theme.
 
-
-
-use serde::{ Deserialize, Serialize };
-
-
+use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Picklist {
@@ -54,14 +50,13 @@ pub struct Menu {
     pub stext: String,
 }
 
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub enum StateComponent {
     /// The button state is defined.
-    Defined( State ),
+    Defined(State),
 
     /// The button state is inherited from another button theme.
-    Inherited( String ),
+    Inherited(String),
 
     /// The button state is not defined.
     None,
@@ -70,8 +65,8 @@ pub enum StateComponent {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub enum MenuComponent {
     /// The button state is defined.
-    Defined( Menu ),
+    Defined(Menu),
 
     /// The button state is inherited from another button theme.
-    Inherited( String ),
+    Inherited(String),
 }

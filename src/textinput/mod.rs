@@ -1,23 +1,12 @@
 //! text input theme.
 
-
-
 pub(crate) mod serial;
 
+use crate::{Border, Color, Theme};
 
-
-use crate::{ Border, Color, Theme };
-
-use iced_native::{
-    widget::{
-        text_input::{
-            Appearance, StyleSheet,
-        },
-    },
-};
+use iced_native::widget::text_input::{Appearance, StyleSheet};
 
 use serial::Component;
-
 
 #[derive(Clone, Copy, Debug)]
 pub struct TextInput {
@@ -33,10 +22,10 @@ impl TextInput {
     /// Attempts to create a theme from its serialized version.
     pub(crate) fn create(serial: &serial::TextInput, theme: &Theme) -> Result<Self, ()> {
         // Get all the themes.
-        let active  = Self::state( &serial.active , theme, 0 )?;
-        let hovered = Self::state( &serial.hovered, theme, 1 )?;
-        let focused = Self::state( &serial.focused, theme, 2 )?;
-        
+        let active = Self::state(&serial.active, theme, 0)?;
+        let hovered = Self::state(&serial.hovered, theme, 1)?;
+        let focused = Self::state(&serial.focused, theme, 2)?;
+
         // Find the first state theme that is not None.
         let default = match (active, hovered, focused) {
             (Some(d), _, _) => d,
@@ -47,48 +36,56 @@ impl TextInput {
         };
 
         // Get the placeholder color.
-        let placeholder = match theme.color.get( &serial.placeholder ) {
+        let placeholder = match theme.color.get(&serial.placeholder) {
             Some(color) => *color,
             _ => return Err(()),
         };
 
         // Get the placeholder color.
-        let value = match theme.color.get( &serial.value ) {
+        let value = match theme.color.get(&serial.value) {
             Some(color) => *color,
             _ => return Err(()),
         };
 
         // Get the placeholder color.
-        let selection = match theme.color.get( &serial.selection ) {
+        let selection = match theme.color.get(&serial.selection) {
             Some(color) => *color,
             _ => return Err(()),
         };
 
         Ok(TextInput {
             state: [
-                if active.is_some()  { active.unwrap()  } else { default },
-                if hovered.is_some() { hovered.unwrap() } else { default },
-                if focused.is_some() { focused.unwrap() } else { default },
+                if active.is_some() {
+                    active.unwrap()
+                } else {
+                    default
+                },
+                if hovered.is_some() {
+                    hovered.unwrap()
+                } else {
+                    default
+                },
+                if focused.is_some() {
+                    focused.unwrap()
+                } else {
+                    default
+                },
             ],
 
-            colors: [
-                placeholder,
-                value,
-                selection,
-            ],
+            colors: [placeholder, value, selection],
         })
     }
 
     fn state(serial: &Component, theme: &Theme, index: usize) -> Result<Option<State>, ()> {
         match serial {
-            Component::Defined( state ) => Ok( Some( State::from(&state, &theme)? ) ),
+            Component::Defined(state) => Ok(Some(State::from(&state, &theme)?)),
 
-            Component::Inherited( name ) => match theme.textinput.get( name ) {
-                Some( textinput ) => Ok( Some( textinput.state[index].clone() ) ),
+            Component::Inherited(name) => match theme.textinput.get(name) {
+                Some(textinput) => Ok(Some(textinput.state[index].clone())),
                 _ => Err(()),
             },
 
-            Component::None => Ok( None ),
+            Component::None => Ok(None),
         }
     }
 }
@@ -136,12 +133,10 @@ impl StyleSheet for TextInput {
     }
 }
 
-
-
 #[derive(Clone, Copy, Debug)]
 pub struct State {
     /// Background color.
-    pub background: Color, 
+    pub background: Color,
 
     /// Border theme.
     pub border: Border,
@@ -162,6 +157,6 @@ impl State {
             _ => return Err(()),
         };
 
-        Ok( State { background, border } )
+        Ok(State { background, border })
     }
 }

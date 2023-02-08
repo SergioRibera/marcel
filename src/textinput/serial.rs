@@ -1,10 +1,6 @@
 //! `serde` compatible version of the text input theme.
 
-
-
-use serde::{ Deserialize, Serialize };
-
-
+use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct TextInput {
@@ -36,14 +32,13 @@ pub struct State {
     pub border: String,
 }
 
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub enum Component {
     /// The button state is defined.
-    Defined( State ),
+    Defined(State),
 
     /// The button state is inherited from another button theme.
-    Inherited( String ),
+    Inherited(String),
 
     /// The button state is not defined.
     None,

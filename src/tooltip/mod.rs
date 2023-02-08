@@ -1,27 +1,15 @@
 //! Tooltip theme.
 
-
-
 pub(crate) mod serial;
 
+use crate::{Border, Color, Theme};
 
-
-use crate::{ Border, Color, Theme };
-
-use iced_native::{
-    widget::{
-        container::{
-            Appearance, StyleSheet,
-        },
-    },
-};
-
-
+use iced_native::widget::container::{Appearance, StyleSheet};
 
 #[derive(Clone, Copy, Debug)]
 pub struct Tooltip {
     /// Background color.
-    pub background: Color, 
+    pub background: Color,
 
     /// Text color.
     pub text: Color,
@@ -51,7 +39,11 @@ impl Tooltip {
             _ => return Err(()),
         };
 
-        Ok( Tooltip { background, text, border } )
+        Ok(Tooltip {
+            background,
+            text,
+            border,
+        })
     }
 }
 
@@ -61,7 +53,7 @@ impl StyleSheet for Tooltip {
     fn appearance(&self, _: &Self::Style) -> Appearance {
         Appearance {
             text_color: None,
-            background: Some( self.background.into() ),
+            background: Some(self.background.into()),
             border_radius: self.border.radius,
             border_width: self.border.width,
             border_color: self.border.color.into(),

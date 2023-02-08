@@ -1,10 +1,6 @@
 //! Serialized color.
 
-
-
-use serde::{ Deserialize, Serialize };
-
-
+use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Copy, Debug, Deserialize, Serialize)]
 pub struct Color(u8, u8, u8, f32);
@@ -65,13 +61,18 @@ impl iced_native::widget::text::StyleSheet for Color {
     type Style = Self;
 
     fn appearance(&self, _: Self::Style) -> iced::widget::text::Appearance {
-        iced::widget::text::Appearance { color: Some( self.into() ) }
+        iced::widget::text::Appearance {
+            color: Some(self.into()),
+        }
     }
 }
 
 impl core::fmt::Display for Color {
     fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
-        f.write_str( &format!("R: {:>3} | G: {:>3} | B: {:>3} | A: {:.3}", self.0, self.1, self.2, self.3) )
+        f.write_str(&format!(
+            "R: {:>3} | G: {:>3} | B: {:>3} | A: {:.3}",
+            self.0, self.1, self.2, self.3
+        ))
     }
 }
 

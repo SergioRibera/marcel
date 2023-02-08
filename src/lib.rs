@@ -17,7 +17,7 @@ mod scrollable;
 mod textinput;
 mod tooltip;
 
-pub mod theme;
+mod theme;
 
 pub use border::Border;
 pub use button::Button;
@@ -44,6 +44,3 @@ pub mod serial {
     pub use crate::textinput::serial::TextInput;
     pub use crate::tooltip::serial::Tooltip;
 }
-
-#[cfg(all(test, feature = "dev"))]
-mod tests;

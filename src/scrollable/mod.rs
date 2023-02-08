@@ -1,43 +1,31 @@
 //! Button theme.
 
-
-
 pub(crate) mod serial;
 
+use crate::{Border, Color, Theme};
 
-
-use crate::{ Border, Color, Theme };
-
-use iced_native::{
-    widget::{
-        scrollable::{
-            StyleSheet,
-
-            style::{
-                Scrollbar, Scroller,
-            },
-        },
-    },
+use iced_native::widget::scrollable::{
+    style::{Scrollbar, Scroller},
+    StyleSheet,
 };
 
 use serial::Component;
-
 
 #[derive(Clone, Copy, Debug)]
 pub struct Scrollable {
     /// State Themes of the scrollable.
     /// In order: active, hovered, dragging.
-    pub state: [State; 3]
+    pub state: [State; 3],
 }
 
 impl Scrollable {
     /// Attempts to create a theme from its serialized version.
     pub(crate) fn create(serial: &serial::Scrollable, theme: &Theme) -> Result<Self, ()> {
         // Get all the themes.
-        let active   = Self::state( &serial.active  , theme, 0 )?;
-        let hovered  = Self::state( &serial.hovered , theme, 1 )?;
-        let dragging = Self::state( &serial.dragging, theme, 2 )?;
-        
+        let active = Self::state(&serial.active, theme, 0)?;
+        let hovered = Self::state(&serial.hovered, theme, 1)?;
+        let dragging = Self::state(&serial.dragging, theme, 2)?;
+
         // Find the first state theme that is not None.
         let default = match (active, hovered, dragging) {
             (Some(d), _, _) => d,
@@ -49,23 +37,35 @@ impl Scrollable {
 
         Ok(Scrollable {
             state: [
-                if active.is_some()   { active.unwrap()   } else { default },
-                if hovered.is_some()  { hovered.unwrap()  } else { default },
-                if dragging.is_some() { dragging.unwrap() } else { default },
+                if active.is_some() {
+                    active.unwrap()
+                } else {
+                    default
+                },
+                if hovered.is_some() {
+                    hovered.unwrap()
+                } else {
+                    default
+                },
+                if dragging.is_some() {
+                    dragging.unwrap()
+                } else {
+                    default
+                },
             ],
         })
     }
 
     fn state(serial: &Component, theme: &Theme, index: usize) -> Result<Option<State>, ()> {
         match serial {
-            Component::Defined( state ) => Ok( Some( State::from(&state, &theme)? ) ),
+            Component::Defined(state) => Ok(Some(State::from(&state, &theme)?)),
 
-            Component::Inherited( name ) => match theme.scrollable.get( name ) {
-                Some( scrollable ) => Ok( Some( scrollable.state[index].clone() ) ),
+            Component::Inherited(name) => match theme.scrollable.get(name) {
+                Some(scrollable) => Ok(Some(scrollable.state[index].clone())),
                 _ => Err(()),
             },
 
-            Component::None => Ok( None ),
+            Component::None => Ok(None),
         }
     }
 }
@@ -75,7 +75,7 @@ impl StyleSheet for Scrollable {
 
     fn active(&self, _: &Self::Style) -> Scrollbar {
         Scrollbar {
-            background: Some( self.state[0].color.into() ),
+            background: Some(self.state[0].color.into()),
             border_radius: self.state[0].border.radius,
             border_width: self.state[0].border.width,
             border_color: self.state[0].border.color.into(),
@@ -85,13 +85,13 @@ impl StyleSheet for Scrollable {
                 border_radius: self.state[0].sborder.radius,
                 border_width: self.state[0].sborder.width,
                 border_color: self.state[0].sborder.color.into(),
-            }
+            },
         }
     }
 
     fn hovered(&self, _: &Self::Style) -> Scrollbar {
         Scrollbar {
-            background: Some( self.state[1].color.into() ),
+            background: Some(self.state[1].color.into()),
             border_radius: self.state[1].border.radius,
             border_width: self.state[1].border.width,
             border_color: self.state[1].border.color.into(),
@@ -101,12 +101,10 @@ impl StyleSheet for Scrollable {
                 border_radius: self.state[1].sborder.radius,
                 border_width: self.state[1].sborder.width,
                 border_color: self.state[1].sborder.color.into(),
-            }
+            },
         }
     }
 }
-
-
 
 #[derive(Clone, Copy, Debug)]
 pub struct State {
@@ -150,6 +148,11 @@ impl State {
             _ => return Err(()),
         };
 
-        Ok( State { color, border, scolor, sborder } )
+        Ok(State {
+            color,
+            border,
+            scolor,
+            sborder,
+        })
     }
 }

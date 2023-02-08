@@ -1,22 +1,10 @@
 //! Container theme.
 
-
-
 pub(crate) mod serial;
 
+use crate::{Border, Color, Theme};
 
-
-use crate::{ Border, Color, Theme };
-
-use iced_native::{
-    widget::{
-        container::{
-            Appearance, StyleSheet
-        },
-    },
-};
-
-
+use iced_native::widget::container::{Appearance, StyleSheet};
 
 #[derive(Clone, Copy, Debug)]
 pub struct Container {
@@ -42,13 +30,13 @@ impl Container {
             _ => return Err(()),
         };
 
-        Ok( Container { color, border } )
+        Ok(Container { color, border })
     }
 }
 
 impl Into<iced::theme::Container> for Container {
     fn into(self) -> iced::theme::Container {
-        iced::theme::Container::Custom( Box::new(self) )
+        iced::theme::Container::Custom(Box::new(self))
     }
 }
 
@@ -58,7 +46,7 @@ impl StyleSheet for Container {
     fn appearance(&self, _: &Self::Style) -> Appearance {
         Appearance {
             text_color: None,
-            background: Some( self.color.into() ),
+            background: Some(self.color.into()),
             border_radius: self.border.radius,
             border_width: self.border.width,
             border_color: self.border.color.into(),

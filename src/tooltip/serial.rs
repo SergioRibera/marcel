@@ -1,10 +1,6 @@
 //! `serde` compatible version of the tooltip theme.
 
-
-
-use serde::{ Deserialize, Serialize };
-
-
+use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Tooltip {

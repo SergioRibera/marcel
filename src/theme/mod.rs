@@ -1,20 +1,10 @@
 //! `Theme` represents a serializable collection of a theme.
 
-
-
 pub mod serial;
-
-
 
 use crate::*;
 
-use std::{
-    collections::{
-        HashMap,
-    },
-};
-
-
+use std::collections::HashMap;
 
 #[derive(Clone, Debug)]
 pub struct Theme {
@@ -95,32 +85,40 @@ impl Theme {
 
         // Deserialize the borders, as they only depend on colors.
         for (name, serial) in &theme.border {
-            match Border::create( serial, &self ) {
-                Ok(b) => { self.border.insert( name.clone(), b ); },
+            match Border::create(serial, &self) {
+                Ok(b) => {
+                    self.border.insert(name.clone(), b);
+                }
                 Err(_) => failed += 1,
             }
         }
 
         // Deserialize the progress bars, as they only depend on colors.
         for (name, serial) in &theme.progressbar {
-            match ProgressBar::create( serial, &self ) {
-                Ok(p) => { self.progressbar.insert( name.clone(), p ); },
+            match ProgressBar::create(serial, &self) {
+                Ok(p) => {
+                    self.progressbar.insert(name.clone(), p);
+                }
                 Err(_) => failed += 1,
             }
         }
 
         // Deserialize the containers, as they only depend on colors and borders.
         for (name, serial) in &theme.container {
-            match Container::create( serial, &self ) {
-                Ok(c) => { self.container.insert( name.clone(), c ); },
+            match Container::create(serial, &self) {
+                Ok(c) => {
+                    self.container.insert(name.clone(), c);
+                }
                 Err(_) => failed += 1,
             }
         }
 
         // Deserialize the tooltips, as they only depend on colors and borders.
         for (name, serial) in &theme.tooltip {
-            match Tooltip::create( serial, &self ) {
-                Ok(c) => { self.tooltip.insert( name.clone(), c ); },
+            match Tooltip::create(serial, &self) {
+                Ok(c) => {
+                    self.tooltip.insert(name.clone(), c);
+                }
                 Err(_) => failed += 1,
             }
         }
@@ -131,40 +129,50 @@ impl Theme {
         for _ in 0..10 {
             // Deserialize the buttons.
             for (name, serial) in &theme.button {
-                match Button::create( serial, &self ) {
-                    Ok(b) => { self.button.insert( name.clone(), b ); },
+                match Button::create(serial, &self) {
+                    Ok(b) => {
+                        self.button.insert(name.clone(), b);
+                    }
                     Err(_) => failed += 1,
                 }
             }
 
             // Deserialize the picklists.
             for (name, serial) in &theme.panegrid {
-                match PaneGrid::create( serial, &self ) {
-                    Ok(p) => { self.panegrid.insert( name.clone(), p ); },
+                match PaneGrid::create(serial, &self) {
+                    Ok(p) => {
+                        self.panegrid.insert(name.clone(), p);
+                    }
                     Err(_) => failed += 1,
                 }
             }
 
             // Deserialize the picklists.
             for (name, serial) in &theme.picklist {
-                match Picklist::create( serial, &self ) {
-                    Ok(p) => { self.picklist.insert( name.clone(), p ); },
+                match Picklist::create(serial, &self) {
+                    Ok(p) => {
+                        self.picklist.insert(name.clone(), p);
+                    }
                     Err(_) => failed += 1,
                 }
             }
 
             // Deserialize the scrollables.
             for (name, serial) in &theme.scrollable {
-                match Scrollable::create( serial, &self ) {
-                    Ok(s) => { self.scrollable.insert( name.clone(), s ); },
+                match Scrollable::create(serial, &self) {
+                    Ok(s) => {
+                        self.scrollable.insert(name.clone(), s);
+                    }
                     Err(_) => failed += 1,
                 }
             }
 
             // Deserialize the text inputs.
             for (name, serial) in &theme.textinput {
-                match TextInput::create( serial, &self ) {
-                    Ok(t) => { self.textinput.insert( name.clone(), t ); },
+                match TextInput::create(serial, &self) {
+                    Ok(t) => {
+                        self.textinput.insert(name.clone(), t);
+                    }
                     Err(_) => failed += 1,
                 }
             }
@@ -204,7 +212,7 @@ impl core::fmt::Display for Theme {
         string += "|- Buttons\n";
 
         for (name, button) in &self.button {
-            const STATE: [&'static str; 4] = [ "Active  ", "Hovered ", "Pressed ", "Disabled", ];
+            const STATE: [&'static str; 4] = ["Active  ", "Hovered ", "Pressed ", "Disabled"];
 
             string += &format!("| |- \"{}\"\n", name);
 
@@ -212,10 +220,16 @@ impl core::fmt::Display for Theme {
                 string += &format!("| | |- {}\n", STATE[state]);
                 string += &format!("| | | |- Background: {}\n", button.state[state].background);
                 string += &format!("| | | |- Text color: {}\n", button.state[state].text);
-                string +=          "| | | |- Border:\n";
+                string += "| | | |- Border:\n";
                 string += &format!("| | |   |- Color: {}\n", button.state[state].border.color);
-                string += &format!("| | |   |- Radius: {:.3}\n", button.state[state].border.radius);
-                string += &format!("| | |   |- Width:  {:.3}\n", button.state[state].border.width);
+                string += &format!(
+                    "| | |   |- Radius: {:.3}\n",
+                    button.state[state].border.radius
+                );
+                string += &format!(
+                    "| | |   |- Width:  {:.3}\n",
+                    button.state[state].border.width
+                );
             }
         }
 
@@ -225,7 +239,7 @@ impl core::fmt::Display for Theme {
         for (name, container) in &self.container {
             string += &format!("| |- \"{}\"\n", name);
             string += &format!("| | |- Color: {}\n", container.color);
-            string +=          "| | |- Border\n";
+            string += "| | |- Border\n";
             string += &format!("| |   |- Color: {}\n", container.border.color);
             string += &format!("| |   |- Radius: {:.3}\n", container.border.radius);
             string += &format!("| |   |- Width:  {:.3}\n", container.border.width);
@@ -235,7 +249,7 @@ impl core::fmt::Display for Theme {
         string += "|- Pane Grids\n";
 
         for (name, panegrid) in &self.panegrid {
-            const STATE: [&'static str; 2] = [ "Picked  ", "Hovered ", ];
+            const STATE: [&'static str; 2] = ["Picked  ", "Hovered "];
 
             string += &format!("| |- \"{}\"\n", name);
 
@@ -250,30 +264,57 @@ impl core::fmt::Display for Theme {
         string += "|- Picklists (Dropdowns)\n";
 
         for (name, picklist) in &self.picklist {
-            const STATE: [&'static str; 2] = [ "Active  ", "Hovered ", ];
+            const STATE: [&'static str; 2] = ["Active  ", "Hovered "];
 
             string += &format!("| |- \"{}\"\n", name);
 
             for state in 0..2 {
                 string += &format!("| | |- {}\n", STATE[state]);
-                string += &format!("| | | |- Background:        {}\n", picklist.state[state].background);
-                string += &format!("| | | |- Text color:        {}\n", picklist.state[state].text);
-                string += &format!("| | | |- Placeholder color: {}\n", picklist.state[state].placeholder);
-                string += &format!("| | | |- Handle color     : {}\n", picklist.state[state].handle);
-                string +=          "| | | |- Border:\n";
+                string += &format!(
+                    "| | | |- Background:        {}\n",
+                    picklist.state[state].background
+                );
+                string += &format!(
+                    "| | | |- Text color:        {}\n",
+                    picklist.state[state].text
+                );
+                string += &format!(
+                    "| | | |- Placeholder color: {}\n",
+                    picklist.state[state].placeholder
+                );
+                string += &format!(
+                    "| | | |- Handle color     : {}\n",
+                    picklist.state[state].handle
+                );
+                string += "| | | |- Border:\n";
                 string += &format!("| | |   |- Color: {}\n", picklist.state[state].border.color);
-                string += &format!("| | |   |- Radius: {:.3}\n", picklist.state[state].border.radius);
-                string += &format!("| | |   |- Width:  {:.3}\n", picklist.state[state].border.width);
+                string += &format!(
+                    "| | |   |- Radius: {:.3}\n",
+                    picklist.state[state].border.radius
+                );
+                string += &format!(
+                    "| | |   |- Width:  {:.3}\n",
+                    picklist.state[state].border.width
+                );
             }
 
-            string +=          "| | |- Menu\n";
+            string += "| | |- Menu\n";
 
-            string += &format!("| | | |- Background:        {}\n", picklist.menu.background[0]);
+            string += &format!(
+                "| | | |- Background:        {}\n",
+                picklist.menu.background[0]
+            );
             string += &format!("| | | |- Text color:        {}\n", picklist.menu.text[0]);
-            string += &format!("| | | |- Selected background:        {}\n", picklist.menu.background[1]);
-            string += &format!("| | | |- Selected text color:        {}\n", picklist.menu.text[1]);
+            string += &format!(
+                "| | | |- Selected background:        {}\n",
+                picklist.menu.background[1]
+            );
+            string += &format!(
+                "| | | |- Selected text color:        {}\n",
+                picklist.menu.text[1]
+            );
 
-            string +=          "| | | |- Border:\n";
+            string += "| | | |- Border:\n";
             string += &format!("| | |   |- Color: {}\n", picklist.menu.border.color);
             string += &format!("| | |   |- Radius: {:.3}\n", picklist.menu.border.radius);
             string += &format!("| | |   |- Width:  {:.3}\n", picklist.menu.border.width);
@@ -293,23 +334,47 @@ impl core::fmt::Display for Theme {
         string += "|- Scrollbars\n";
 
         for (name, scrollable) in &self.scrollable {
-            const STATE: [&'static str; 3] = [ "Active  ", "Hovered ", "Dragging", ];
+            const STATE: [&'static str; 3] = ["Active  ", "Hovered ", "Dragging"];
 
             string += &format!("| |- \"{}\"\n", name);
 
             for state in 0..3 {
                 string += &format!("| | |- {}\n", STATE[state]);
-                string += &format!("| | | |- Scrollbar color: {}\n", scrollable.state[state].color);
-                string +=          "| | | |- Scrollbar border:\n";
-                string += &format!("| | |   |- Color: {}\n", scrollable.state[state].border.color);
-                string += &format!("| | |   |- Radius: {:.3}\n", scrollable.state[state].border.radius);
-                string += &format!("| | |   |- Width:  {:.3}\n", scrollable.state[state].border.width);
+                string += &format!(
+                    "| | | |- Scrollbar color: {}\n",
+                    scrollable.state[state].color
+                );
+                string += "| | | |- Scrollbar border:\n";
+                string += &format!(
+                    "| | |   |- Color: {}\n",
+                    scrollable.state[state].border.color
+                );
+                string += &format!(
+                    "| | |   |- Radius: {:.3}\n",
+                    scrollable.state[state].border.radius
+                );
+                string += &format!(
+                    "| | |   |- Width:  {:.3}\n",
+                    scrollable.state[state].border.width
+                );
 
-                string += &format!("| | | |- Scroller color: {}\n", scrollable.state[state].scolor);
-                string +=          "| | | |- Scroller border:\n";
-                string += &format!("| | |   |- Color: {}\n", scrollable.state[state].sborder.color);
-                string += &format!("| | |   |- Radius: {:.3}\n", scrollable.state[state].sborder.radius);
-                string += &format!("| | |   |- Width:  {:.3}\n", scrollable.state[state].sborder.width);
+                string += &format!(
+                    "| | | |- Scroller color: {}\n",
+                    scrollable.state[state].scolor
+                );
+                string += "| | | |- Scroller border:\n";
+                string += &format!(
+                    "| | |   |- Color: {}\n",
+                    scrollable.state[state].sborder.color
+                );
+                string += &format!(
+                    "| | |   |- Radius: {:.3}\n",
+                    scrollable.state[state].sborder.radius
+                );
+                string += &format!(
+                    "| | |   |- Width:  {:.3}\n",
+                    scrollable.state[state].sborder.width
+                );
             }
         }
 
@@ -317,17 +382,29 @@ impl core::fmt::Display for Theme {
         string += "|- Scrollbars\n";
 
         for (name, textinput) in &self.textinput {
-            const STATE: [&'static str; 3] = [ "Active  ", "Hovered ", "Focused", ];
+            const STATE: [&'static str; 3] = ["Active  ", "Hovered ", "Focused"];
 
             string += &format!("| |- \"{}\"\n", name);
 
             for state in 0..3 {
                 string += &format!("| | |- {}\n", STATE[state]);
-                string += &format!("| | | |- Background: {}\n", textinput.state[state].background);
-                string +=          "| | | |- Border:\n";
-                string += &format!("| | |   |- Color: {}\n", textinput.state[state].border.color);
-                string += &format!("| | |   |- Radius: {:.3}\n", textinput.state[state].border.radius);
-                string += &format!("| | |   |- Width:  {:.3}\n", textinput.state[state].border.width);
+                string += &format!(
+                    "| | | |- Background: {}\n",
+                    textinput.state[state].background
+                );
+                string += "| | | |- Border:\n";
+                string += &format!(
+                    "| | |   |- Color: {}\n",
+                    textinput.state[state].border.color
+                );
+                string += &format!(
+                    "| | |   |- Radius: {:.3}\n",
+                    textinput.state[state].border.radius
+                );
+                string += &format!(
+                    "| | |   |- Width:  {:.3}\n",
+                    textinput.state[state].border.width
+                );
             }
 
             string += &format!("| | |- Placeholder color: {}\n", textinput.colors[0]);
@@ -342,7 +419,7 @@ impl core::fmt::Display for Theme {
             string += &format!("| |- \"{}\"\n", name);
             string += &format!("| | |- Background: {}\n", tooltip.background);
             string += &format!("| | |- Text color: {}\n", tooltip.text);
-            string +=          "| | |- Border:\n";
+            string += "| | |- Border:\n";
             string += &format!("| |   |- Color: {}\n", tooltip.border.color);
             string += &format!("| |   |- Radius: {:.3}\n", tooltip.border.radius);
             string += &format!("| |   |- Width:  {:.3}\n", tooltip.border.width);

@@ -1,14 +1,8 @@
 //! Border theme.
 
-
-
 pub(crate) mod serial;
 
-
-
-use crate::{ Color, Theme };
-
-
+use crate::{Color, Theme};
 
 #[derive(Clone, Copy, Debug)]
 pub struct Border {
@@ -26,7 +20,11 @@ impl Border {
     /// Attempts to create a theme from its serialized version.
     pub(crate) fn create(serial: &serial::Border, theme: &Theme) -> Result<Self, ()> {
         match theme.color.get(&serial.color) {
-            Some(color) => Ok( Self { color: *color, radius: serial.radius, width: serial.width } ),
+            Some(color) => Ok(Self {
+                color: *color,
+                radius: serial.radius,
+                width: serial.width,
+            }),
             _ => Err(()),
         }
     }

@@ -1,22 +1,10 @@
 //! Progress bar theme.
 
-
-
 pub(crate) mod serial;
 
+use crate::{Color, Theme};
 
-
-use crate::{ Color, Theme };
-
-use iced_native::{
-    widget::{
-        progress_bar::{
-            Appearance, StyleSheet,
-        },
-    },
-};
-
-
+use iced_native::widget::progress_bar::{Appearance, StyleSheet};
 
 #[derive(Clone, Copy, Debug)]
 pub struct ProgressBar {
@@ -45,7 +33,11 @@ impl ProgressBar {
             _ => return Err(()),
         };
 
-        Ok( ProgressBar { background, bar, radius: serial.radius } )
+        Ok(ProgressBar {
+            background,
+            bar,
+            radius: serial.radius,
+        })
     }
 }
 

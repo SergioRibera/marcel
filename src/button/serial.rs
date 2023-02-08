@@ -1,12 +1,6 @@
 //! Serial Button theme.
 
-
-
-use serde::{
-    Deserialize, Serialize,
-};
-
-
+use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Button {
@@ -23,8 +17,6 @@ pub struct Button {
     pub(super) disabled: Component,
 }
 
-
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct State {
     /// Key to the background color.
@@ -37,15 +29,13 @@ pub struct State {
     pub(super) border: String,
 }
 
-
-
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub enum Component {
     /// The theme is defined.
-    Defined( State ),
+    Defined(State),
 
     /// The button state is inherited from another theme.
-    Inherited( String ),
+    Inherited(String),
 
     /// The theme is not defined.
     None,
