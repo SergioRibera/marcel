@@ -2,8 +2,6 @@
 //! It contains a collection of `Style` conertable structures that can be
 //! serialized using `serde`.
 
-
-
 mod border;
 mod button;
 //pub mod checkbox;
@@ -19,11 +17,7 @@ mod scrollable;
 mod textinput;
 mod tooltip;
 
-mod serial;
-
 pub mod theme;
-
-
 
 pub use border::Border;
 pub use button::Button;
@@ -38,7 +32,18 @@ pub use tooltip::Tooltip;
 
 pub use theme::Theme;
 
-
+pub mod serial {
+    pub use crate::border::serial::Border;
+    pub use crate::button::serial::Button;
+    pub use crate::color::Color;
+    pub use crate::container::serial::Container;
+    pub use crate::panegrid::serial::PaneGrid;
+    pub use crate::picklist::serial::Picklist;
+    pub use crate::progressbar::serial::ProgressBar;
+    pub use crate::scrollable::serial::Scrollable;
+    pub use crate::textinput::serial::TextInput;
+    pub use crate::tooltip::serial::Tooltip;
+}
 
 #[cfg(all(test, feature = "dev"))]
 mod tests;
