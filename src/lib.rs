@@ -43,4 +43,6 @@ pub mod serial {
     pub use crate::scrollable::serial::Scrollable;
     pub use crate::textinput::serial::TextInput;
     pub use crate::tooltip::serial::Tooltip;
+
+    pub use crate::theme::serial::Theme;
 }
