@@ -1,5 +1,6 @@
 //! Serial version of the theme.
 
+use crate::Color;
 use crate::serial::*;
 
 use serde::{Deserialize, Serialize};
