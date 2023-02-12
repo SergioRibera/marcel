@@ -6,7 +6,7 @@ use crate::*;
 
 use std::collections::HashMap;
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Default, Debug)]
 pub struct Theme {
     /// Name of this theme.
     /// This can be used to index a set of themes inside a `Hashmap`.
