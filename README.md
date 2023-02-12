@@ -9,16 +9,16 @@ allowing the users to distribute and develop their own themes.
 This crate integrates seamlessly with both `iced` in the GUI front and [`serde`](https://github.com/serde-rs/serde) in the Serialization front,
 while being agnostic to the serialization format chosen by the user.
 
+> **NOTE:** This crate support css color declaration (including color named) to define color
+
 
 
 ## Usage
 Add this to you `Cargo.toml`
 ```
 [dependencies]
-marcel = "0.1"
+marcel = { git = "https://github.com/SergioRibera/marcel", tag = "0.2.1" }
 ```
-
-WARNING: `marcel v0.1` is compatible with `iced v0.6.0` and `iced_native v0.7` and with `serde v1`.
 
 See below for a way to load a theme into your application.
 
