@@ -16,6 +16,9 @@ pub struct Theme {
     /// Used mainly as a helper in the serialized files.
     pub description: String,
 
+    /// General Application Theme
+    pub application: Application,
+
     /// Maps name keys to border themes.
     pub border: HashMap<String, Border>,
 

@@ -5,6 +5,7 @@
 mod border;
 mod button;
 //pub mod checkbox;
+mod application;
 mod color;
 mod container;
 mod panegrid;
@@ -19,6 +20,7 @@ mod tooltip;
 
 mod theme;
 
+pub use application::Application;
 pub use border::Border;
 pub use button::Button;
 pub use color::Color;
@@ -33,6 +35,7 @@ pub use tooltip::Tooltip;
 pub use theme::Theme;
 
 pub mod serial {
+    pub use crate::application::serial::Application;
     pub use crate::border::serial::Border;
     pub use crate::button::serial::Button;
     pub use crate::color::Color;

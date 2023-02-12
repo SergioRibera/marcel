@@ -16,6 +16,9 @@ pub struct Theme {
     /// Used mainly as a helper in the serialized files.
     pub description: String,
 
+    /// General Application Theme
+    pub application: Application,
+
     /// Maps name keys to border themes.
     pub border: HashMap<String, Border>,
 
@@ -54,6 +57,8 @@ impl Theme {
             name: String::new(),
             description: String::new(),
 
+            application: Application::default(),
+
             border: HashMap::new(),
             button: HashMap::new(),
 
@@ -82,6 +87,9 @@ impl Theme {
 
         // Deserialize all the colors.
         self.color = theme.color.clone();
+
+        // Deserialize application
+        self.application = Application::create(&theme.application, &self)?;
 
         // Deserialize the borders, as they only depend on colors.
         for (name, serial) in &theme.border {

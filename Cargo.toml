@@ -25,6 +25,7 @@ exclude = [
 
 
 [dependencies]
+css-color = "0.2.5"
 
 [dependencies.iced]
 version = "0.7.0"
