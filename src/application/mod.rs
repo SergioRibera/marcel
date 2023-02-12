@@ -1,3 +1,5 @@
+use iced::application::StyleSheet;
+
 use crate::{Color, Theme};
 
 pub mod serial;
@@ -23,5 +25,16 @@ impl Application {
             background_color: bg.clone(),
             text_color: text.clone(),
         })
+    }
+}
+
+impl StyleSheet for Application {
+    type Style = iced::Theme;
+
+    fn appearance(&self, _style: &Self::Style) -> iced::application::Appearance {
+        iced::application::Appearance {
+            background_color: self.background_color.into(),
+            text_color: self.text_color.into(),
+        }
     }
 }
