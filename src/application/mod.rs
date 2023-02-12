@@ -2,7 +2,7 @@ use iced::application::StyleSheet;
 
 use crate::{Color, Theme};
 
-pub mod serial;
+pub(crate) mod serial;
 
 #[derive(Clone, Default, Debug)]
 pub struct Application {

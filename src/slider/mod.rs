@@ -1,16 +1,8 @@
 //! Slider theme.
 
-
-
-mod serial;
+pub(crate) mod serial;
 mod style;
 
-
-
-pub use self::serial::{
-    Slider as Serial,
-    SliderState as StateSerial,
-    Component,
-};
+pub use self::serial::{Component, Slider as Serial, SliderState as StateSerial};
 
 pub use self::style::Theme;

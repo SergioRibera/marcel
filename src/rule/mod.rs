@@ -1,11 +1,6 @@
 //! Rule theme.
 
-
-
-mod serial;
+pub(crate) mod serial;
 mod style;
 
-
-
-pub use self::serial::Rule as Serial;
-pub use self::style::Theme;
+pub use self::{serial::Rule as Serial, style::Theme};
