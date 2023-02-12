@@ -7,55 +7,55 @@ use crate::*;
 use std::collections::HashMap;
 
 #[derive(Clone, Default, Debug)]
-pub struct Theme {
+pub struct Theme<'a> {
     /// Name of this theme.
     /// This can be used to index a set of themes inside a `Hashmap`.
-    pub name: String,
+    pub name: &'a str,
 
     /// Brief description of this theme.
     /// Used mainly as a helper in the serialized files.
-    pub description: String,
+    pub description: &'a str,
 
     /// General Application Theme
     pub application: Application,
 
     /// Maps name keys to border themes.
-    pub border: HashMap<String, Border>,
+    pub border: HashMap<&'a str, Border>,
 
     // Maps name keys to button themes.
-    pub button: HashMap<String, Button>,
+    pub button: HashMap<&'a str, Button>,
 
     /// Maps name keys to colors.
-    pub color: HashMap<String, Color>,
+    pub color: HashMap<&'a str, Color>,
 
     /// Maps name keys to container themes.
-    pub container: HashMap<String, Container>,
+    pub container: HashMap<&'a str, Container>,
 
     /// Maps name keys to panegrid themes.
-    pub panegrid: HashMap<String, PaneGrid>,
+    pub panegrid: HashMap<&'a str, PaneGrid>,
 
     /// Maps name keys to picklist themes.
-    pub picklist: HashMap<String, Picklist>,
+    pub picklist: HashMap<&'a str, Picklist>,
 
     /// Maps name keys to progress bar themes.
-    pub progressbar: HashMap<String, ProgressBar>,
+    pub progressbar: HashMap<&'a str, ProgressBar>,
 
     /// Maps name keys to scrollable themes.
-    pub scrollable: HashMap<String, Scrollable>,
+    pub scrollable: HashMap<&'a str, Scrollable>,
 
     /// Maps name keys to text input themes.
-    pub textinput: HashMap<String, TextInput>,
+    pub textinput: HashMap<&'a str, TextInput>,
 
     /// Maps name keys to tooltip themes.
-    pub tooltip: HashMap<String, Tooltip>,
+    pub tooltip: HashMap<&'a str, Tooltip>,
 }
 
-impl Theme {
+impl<'a> Theme<'a> {
     /// Creates an empty theme.
     pub fn new() -> Self {
         Theme {
-            name: String::new(),
-            description: String::new(),
+            name: "",
+            description: "",
 
             application: Application::default(),
 
@@ -77,7 +77,7 @@ impl Theme {
     }
 
     /// Attempts to create a theme from its serialized version.
-    pub fn parse(&mut self, theme: &serial::Theme) -> Result<usize, ()> {
+    pub fn parse(&mut self, theme: &'a serial::Theme) -> Result<usize, ()> {
         // Get the name and description.
         self.name = theme.name.clone();
         self.description = theme.description.clone();
@@ -190,7 +190,7 @@ impl Theme {
     }
 }
 
-impl core::fmt::Display for Theme {
+impl<'a> core::fmt::Display for Theme<'a> {
     fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
         // Create the buffer string.
         let mut string = String::new();

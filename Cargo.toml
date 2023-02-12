@@ -1,28 +1,20 @@
 [package]
 name = "marcel"
 description = "Dynamic theme library for the iced GUI framework"
-
-version = "0.1.1"
+version = "0.2.1"
 edition = "2021"
-
 readme = "README.md"
-repository = "https://github.com/micro-rust/marcel"
-
+repository = "https://github.com/SergioRibera/marcel"
 license = "MIT OR MPL-2.0"
-
 categories = ["database", "data-structures", "graphics", "gui"]
-keywords = ["gui", "theme", "graphics", "application"]
-
+keywords = ["gui", "theme", "graphics", "application", "iced"]
 publish = true
-
 exclude = [
     "src/checkbox",
     "src/radio",
     "src/rule",
     "src/slider",
 ]
-
-
 
 [dependencies]
 css-color = "0.2.5"
@@ -45,8 +37,6 @@ optional = true
 [dependencies.serde]
 version = "1"
 features = ["derive"]
-
-
 
 [features]
 dev = ["ron"]

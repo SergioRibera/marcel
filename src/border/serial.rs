@@ -3,9 +3,9 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct Border {
+pub struct Border<'a> {
     /// Key to the border color.
-    pub color: String,
+    pub color: &'a str,
 
     /// Radius of the border.
     pub radius: f32,
