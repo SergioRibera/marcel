@@ -35,17 +35,12 @@ pub use tooltip::Tooltip;
 pub use theme::Theme;
 
 pub mod serial {
-    pub use crate::application::serial::Application;
-    pub use crate::border::serial::Border;
-    pub use crate::button::serial::Button;
-    pub use crate::color::Color;
-    pub use crate::container::serial::Container;
-    pub use crate::panegrid::serial::PaneGrid;
-    pub use crate::picklist::serial::Picklist;
-    pub use crate::progressbar::serial::ProgressBar;
-    pub use crate::scrollable::serial::Scrollable;
-    pub use crate::textinput::serial::TextInput;
-    pub use crate::tooltip::serial::Tooltip;
+    pub use crate::{
+        application::serial::Application, border::serial::Border, button::serial::Button,
+        color::Color, container::serial::Container, panegrid::serial::PaneGrid,
+        picklist::serial::Picklist, progressbar::serial::ProgressBar,
+        scrollable::serial::Scrollable, textinput::serial::TextInput, tooltip::serial::Tooltip,
+    };
 
     pub use crate::theme::serial::Theme;
 }
