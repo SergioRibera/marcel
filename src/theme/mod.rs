@@ -86,7 +86,11 @@ impl<'a> Theme<'a> {
         let mut failed = 0;
 
         // Deserialize all the colors.
-        self.color = theme.color.clone();
+        self.color = theme
+            .color
+            .iter()
+            .map(|(n, c)| (n.as_str(), c.clone()))
+            .collect();
 
         // Deserialize application
         self.application = Application::create(&theme.application, &self)?;
@@ -95,7 +99,7 @@ impl<'a> Theme<'a> {
         for (name, serial) in &theme.border {
             match Border::create(serial, &self) {
                 Ok(b) => {
-                    self.border.insert(name.clone(), b);
+                    self.border.insert(name.as_str(), b);
                 }
                 Err(_) => failed += 1,
             }
@@ -105,7 +109,7 @@ impl<'a> Theme<'a> {
         for (name, serial) in &theme.progressbar {
             match ProgressBar::create(serial, &self) {
                 Ok(p) => {
-                    self.progressbar.insert(name.clone(), p);
+                    self.progressbar.insert(name.as_str(), p);
                 }
                 Err(_) => failed += 1,
             }
@@ -115,7 +119,7 @@ impl<'a> Theme<'a> {
         for (name, serial) in &theme.container {
             match Container::create(serial, &self) {
                 Ok(c) => {
-                    self.container.insert(name.clone(), c);
+                    self.container.insert(name.as_str(), c);
                 }
                 Err(_) => failed += 1,
             }
@@ -125,7 +129,7 @@ impl<'a> Theme<'a> {
         for (name, serial) in &theme.tooltip {
             match Tooltip::create(serial, &self) {
                 Ok(c) => {
-                    self.tooltip.insert(name.clone(), c);
+                    self.tooltip.insert(name.as_str(), c);
                 }
                 Err(_) => failed += 1,
             }
@@ -139,7 +143,7 @@ impl<'a> Theme<'a> {
             for (name, serial) in &theme.button {
                 match Button::create(serial, &self) {
                     Ok(b) => {
-                        self.button.insert(name.clone(), b);
+                        self.button.insert(name.as_str(), b);
                     }
                     Err(_) => failed += 1,
                 }
@@ -149,7 +153,7 @@ impl<'a> Theme<'a> {
             for (name, serial) in &theme.panegrid {
                 match PaneGrid::create(serial, &self) {
                     Ok(p) => {
-                        self.panegrid.insert(name.clone(), p);
+                        self.panegrid.insert(name.as_str(), p);
                     }
                     Err(_) => failed += 1,
                 }
@@ -159,7 +163,7 @@ impl<'a> Theme<'a> {
             for (name, serial) in &theme.picklist {
                 match Picklist::create(serial, &self) {
                     Ok(p) => {
-                        self.picklist.insert(name.clone(), p);
+                        self.picklist.insert(name.as_str(), p);
                     }
                     Err(_) => failed += 1,
                 }
@@ -169,7 +173,7 @@ impl<'a> Theme<'a> {
             for (name, serial) in &theme.scrollable {
                 match Scrollable::create(serial, &self) {
                     Ok(s) => {
-                        self.scrollable.insert(name.clone(), s);
+                        self.scrollable.insert(name.as_str(), s);
                     }
                     Err(_) => failed += 1,
                 }
@@ -179,7 +183,7 @@ impl<'a> Theme<'a> {
             for (name, serial) in &theme.textinput {
                 match TextInput::create(serial, &self) {
                     Ok(t) => {
-                        self.textinput.insert(name.clone(), t);
+                        self.textinput.insert(name.as_str(), t);
                     }
                     Err(_) => failed += 1,
                 }
