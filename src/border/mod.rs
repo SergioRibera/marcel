@@ -4,7 +4,7 @@ pub(crate) mod serial;
 
 use crate::{Color, Theme};
 
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Border {
     /// Border color.
     pub color: Color,

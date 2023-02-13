@@ -2,8 +2,8 @@
 
 use serde::{de::Visitor, Deserialize, Serialize};
 
-#[derive(Clone, Copy, Debug)]
-pub struct Color(u8, u8, u8, f32);
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct Color(pub u8, pub u8, pub u8, pub f32);
 
 impl Color {
     pub const ALICEBLUE: Color = Color(240, 248, 255, 1.);
