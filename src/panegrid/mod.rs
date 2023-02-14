@@ -1,6 +1,6 @@
 //! Pick list theme.
 
-pub(crate) mod serial;
+pub mod serial;
 
 use crate::{Color, Theme};
 
@@ -16,7 +16,7 @@ pub struct PaneGrid {
 
 impl PaneGrid {
     /// Attempts to create a theme from its &serialized version.
-    pub(crate) fn create(serial: &serial::PaneGrid, theme: &Theme) -> Result<Self, ()> {
+    pub fn create(serial: &serial::PaneGrid, theme: &Theme) -> Result<Self, ()> {
         // Get all the themes.
         let picked = Self::state(&serial.picked, theme, 0)?;
         let hovered = Self::state(&serial.hovered, theme, 1)?;

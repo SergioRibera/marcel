@@ -20,13 +20,13 @@ pub struct Button {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct State {
     /// Key to the background color.
-    pub(crate) background: String,
+    pub background: String,
 
     /// Key to the text color.
-    pub(crate) text: String,
+    pub text: String,
 
     /// Key to the border theme.
-    pub(crate) border: String,
+    pub border: String,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]

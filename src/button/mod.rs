@@ -1,6 +1,6 @@
 //! Button theme.
 
-pub(crate) mod serial;
+pub mod serial;
 
 use crate::{Border, Color, Theme};
 
@@ -20,7 +20,7 @@ pub struct Button {
 
 impl Button {
     /// Attempts to create a theme from its &serialized version.
-    pub(crate) fn create(serial: &serial::Button, theme: &Theme) -> Result<Self, ()> {
+    pub fn create(serial: &serial::Button, theme: &Theme) -> Result<Self, ()> {
         // Get all the themes.
         let active = Self::state(&serial.active, theme, 0)?;
         let hovered = Self::state(&serial.hovered, theme, 1)?;
@@ -128,13 +128,13 @@ impl StyleSheet for Button {
 #[derive(Clone, Copy, Debug)]
 pub struct State {
     /// Background color.
-    pub(crate) background: Color,
+    pub background: Color,
 
     /// Text color.
-    pub(crate) text: Color,
+    pub text: Color,
 
     /// Border theme.
-    pub(crate) border: Border,
+    pub border: Border,
 }
 
 impl State {

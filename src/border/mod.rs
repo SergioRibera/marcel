@@ -1,6 +1,6 @@
 //! Border theme.
 
-pub(crate) mod serial;
+pub mod serial;
 
 use crate::{Color, Theme};
 
@@ -18,7 +18,7 @@ pub struct Border {
 
 impl Border {
     /// Attempts to create a theme from its &serialized version.
-    pub(crate) fn create(serial: &serial::Border, theme: &Theme) -> Result<Self, ()> {
+    pub fn create(serial: &serial::Border, theme: &Theme) -> Result<Self, ()> {
         match theme.color.get(serial.color.as_str()) {
             Some(color) => Ok(Self {
                 color: *color,

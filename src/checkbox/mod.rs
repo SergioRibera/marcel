@@ -1,6 +1,6 @@
 //! Checkbox theme.
 
-pub(crate) mod serial;
+pub mod serial;
 mod style;
 
 pub use self::serial::{Checkbox as Serial, CheckboxState as StateSerial, Component};

@@ -1,6 +1,6 @@
 //! text input theme.
 
-pub(crate) mod serial;
+pub mod serial;
 
 use crate::{Border, Color, Theme};
 
@@ -20,7 +20,7 @@ pub struct TextInput {
 
 impl TextInput {
     /// Attempts to create a theme from its &serialized version.
-    pub(crate) fn create(serial: &serial::TextInput, theme: &Theme) -> Result<Self, ()> {
+    pub fn create(serial: &serial::TextInput, theme: &Theme) -> Result<Self, ()> {
         // Get all the themes.
         let active = Self::state(&serial.active, theme, 0)?;
         let hovered = Self::state(&serial.hovered, theme, 1)?;

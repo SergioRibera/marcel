@@ -1,6 +1,6 @@
 //! `Theme` represents a &serializable collection of a theme.
 
-pub(crate) mod serial;
+pub mod serial;
 
 use crate::*;
 

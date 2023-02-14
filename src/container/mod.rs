@@ -1,6 +1,6 @@
 //! Container theme.
 
-pub(crate) mod serial;
+pub mod serial;
 
 use crate::{Border, Color, Theme};
 
@@ -17,7 +17,7 @@ pub struct Container {
 
 impl Container {
     /// Attempts to create a theme from its &serialized version.
-    pub(crate) fn create(serial: &serial::Container, theme: &Theme) -> Result<Self, ()> {
+    pub fn create(serial: &serial::Container, theme: &Theme) -> Result<Self, ()> {
         // Get the color of the container.
         let color = match theme.color.get(serial.color.as_str()) {
             Some(color) => *color,

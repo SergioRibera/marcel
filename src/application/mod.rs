@@ -2,7 +2,7 @@ use iced::application::StyleSheet;
 
 use crate::{Color, Theme};
 
-pub(crate) mod serial;
+pub mod serial;
 
 #[derive(Clone, Default, Debug)]
 pub struct Application {
@@ -11,7 +11,7 @@ pub struct Application {
 }
 
 impl Application {
-    pub(crate) fn create(serial: &serial::Application, theme: &Theme) -> Result<Self, ()> {
+    pub fn create(serial: &serial::Application, theme: &Theme) -> Result<Self, ()> {
         let bg = theme
             .color
             .get(serial.background_color.as_str())
