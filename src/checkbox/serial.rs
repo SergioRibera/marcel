@@ -32,6 +32,7 @@ pub struct CheckboxState {
 
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(tag = "type")]
 pub enum Component {
     /// The button state is defined.
     Defined(CheckboxState),

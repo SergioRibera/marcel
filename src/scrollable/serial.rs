@@ -30,6 +30,7 @@ pub struct ScrollableState {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(tag = "type")]
 pub enum ScrollableComponent {
     /// The button state is defined.
     Defined(ScrollableState),

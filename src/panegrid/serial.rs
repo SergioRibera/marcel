@@ -21,6 +21,7 @@ pub struct PaneGridState {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(tag = "type")]
 pub enum PaneGridComponent {
     /// The line state is defined.
     Defined(PaneGridState),

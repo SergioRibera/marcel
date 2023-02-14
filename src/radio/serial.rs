@@ -32,6 +32,7 @@ pub struct RadioState {
 
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(tag = "type")]
 pub enum Component {
     /// The radio state is defined.
     Defined(RadioState),

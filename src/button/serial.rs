@@ -30,6 +30,7 @@ pub struct ButtonState {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum ButtonComponent {
     /// The theme is defined.
     Defined(ButtonState),

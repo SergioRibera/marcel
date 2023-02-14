@@ -51,6 +51,7 @@ pub struct PicklistMenu {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(tag = "type")]
 pub enum PicklistStateComponent {
     /// The button state is defined.
     Defined(PicklistState),
@@ -63,6 +64,7 @@ pub enum PicklistStateComponent {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(tag = "type")]
 pub enum PicklistMenuComponent {
     /// The button state is defined.
     Defined(PicklistMenu),

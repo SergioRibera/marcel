@@ -33,6 +33,7 @@ pub struct TextInputState {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(tag = "type")]
 pub enum TextInputComponent {
     /// The button state is defined.
     Defined(TextInputState),

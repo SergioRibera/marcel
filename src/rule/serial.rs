@@ -24,6 +24,7 @@ pub struct Rule {
 
 /// Copied from `iced` for serialization.
 #[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(tag = "type")]
 pub enum FillMode {
     AsymmetricPadding(u16, u16),
     Full,

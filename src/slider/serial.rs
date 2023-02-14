@@ -35,6 +35,7 @@ pub struct SliderState {
 
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(tag = "type")]
 pub enum Component {
     /// The slider state is defined.
     Defined(SliderState),
@@ -48,6 +49,7 @@ pub enum Component {
 
 /// Copied from `iced` for serialization.
 #[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(tag = "type")]
 pub enum HandleShape {
     Circle(f32),
     Rectangle(u16, f32),
