@@ -17,7 +17,7 @@ while being agnostic to the serialization format chosen by the user.
 Add this to you `Cargo.toml`
 ```
 [dependencies]
-marcel = { git = "https://github.com/SergioRibera/marcel", tag = "0.2.6" }
+marcel = { git = "https://github.com/SergioRibera/marcel", tag = "0.2.8" }
 ```
 
 See below for a way to load a theme into your application.
