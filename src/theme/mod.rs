@@ -157,6 +157,14 @@ impl Theme {
     }
 }
 
+impl iced::application::StyleSheet for Theme {
+    type Style = iced::Theme;
+
+    fn appearance(&self, style: &Self::Style) -> iced::application::Appearance {
+        self.application.appearance(style)
+    }
+}
+
 impl core::fmt::Display for Theme {
     fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
         // Create the buffer string.

@@ -4,7 +4,7 @@ pub mod serial;
 
 use crate::{Border, Color, Theme};
 
-use iced_native::{
+use iced::{
     widget::button::{Appearance, StyleSheet},
     Vector,
 };
