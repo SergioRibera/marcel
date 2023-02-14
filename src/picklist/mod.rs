@@ -6,15 +6,15 @@ use crate::{Border, Color, Theme};
 
 use iced_native::widget::pick_list::{Appearance, StyleSheet};
 
-use serial::{MenuComponent, StateComponent};
+use serial::{PicklistMenuComponent, PicklistStateComponent};
 
 #[derive(Clone, Copy, Debug)]
 pub struct Picklist {
     /// Active state.
-    pub state: [State; 2],
+    pub state: [PicklistState; 2],
 
     /// Menu style.
-    pub menu: Menu,
+    pub menu: PicklistMenu,
 }
 
 impl Picklist {
@@ -54,27 +54,27 @@ impl Picklist {
     }
 
     fn state(
-        serial: &serial::StateComponent,
+        serial: &serial::PicklistStateComponent,
         theme: &Theme,
         index: usize,
-    ) -> Result<Option<State>, ()> {
+    ) -> Result<Option<PicklistState>, ()> {
         match &serial {
-            StateComponent::Defined(state) => Ok(Some(State::from(&state, &theme)?)),
+            PicklistStateComponent::Defined(state) => Ok(Some(PicklistState::from(&state, &theme)?)),
 
-            StateComponent::Inherited(name) => match theme.picklist.get(name.as_str()) {
+            PicklistStateComponent::Inherited(name) => match theme.picklist.get(name.as_str()) {
                 Some(picklist) => Ok(Some(picklist.state[index].clone())),
                 _ => Err(()),
             },
 
-            StateComponent::None => Ok(None),
+            PicklistStateComponent::None => Ok(None),
         }
     }
 
-    fn menu(serial: &serial::MenuComponent, theme: &Theme) -> Result<Menu, ()> {
+    fn menu(serial: &serial::PicklistMenuComponent, theme: &Theme) -> Result<PicklistMenu, ()> {
         match &serial {
-            MenuComponent::Defined(state) => Ok(Menu::from(&state, &theme)?),
+            PicklistMenuComponent::Defined(state) => Ok(PicklistMenu::from(&state, &theme)?),
 
-            MenuComponent::Inherited(name) => match theme.picklist.get(name.as_str()) {
+            PicklistMenuComponent::Inherited(name) => match theme.picklist.get(name.as_str()) {
                 Some(picklist) => Ok(picklist.menu.clone()),
                 _ => Err(()),
             },
@@ -111,7 +111,7 @@ impl StyleSheet for Picklist {
 }
 
 #[derive(Clone, Copy, Debug)]
-pub struct State {
+pub struct PicklistState {
     /// Background color.
     pub background: Color,
 
@@ -128,9 +128,9 @@ pub struct State {
     pub handle: Color,
 }
 
-impl State {
+impl PicklistState {
     /// Attempts to create a theme from its &serialized version.
-    fn from(serial: &serial::State, theme: &Theme) -> Result<Self, ()> {
+    fn from(serial: &serial::PicklistState, theme: &Theme) -> Result<Self, ()> {
         // Get the background color.
         let background = match theme.color.get(serial.background.as_str()) {
             Some(color) => *color,
@@ -160,7 +160,7 @@ impl State {
             _ => return Err(()),
         };
 
-        Ok(State {
+        Ok(PicklistState {
             background,
             text,
             placeholder,
@@ -171,7 +171,7 @@ impl State {
 }
 
 #[derive(Clone, Copy, Debug)]
-pub struct Menu {
+pub struct PicklistMenu {
     /// Key to the background color.
     pub background: [Color; 2],
 
@@ -182,9 +182,9 @@ pub struct Menu {
     pub border: Border,
 }
 
-impl Menu {
+impl PicklistMenu {
     /// Attempts to create a theme from its &serialized version.
-    fn from(serial: &serial::Menu, theme: &Theme) -> Result<Self, ()> {
+    fn from(serial: &serial::PicklistMenu, theme: &Theme) -> Result<Self, ()> {
         // Get the background colors.
         let background = match theme.color.get(serial.background.as_str()) {
             Some(color) => *color,
@@ -213,7 +213,7 @@ impl Menu {
             _ => return Err(()),
         };
 
-        Ok(Menu {
+        Ok(PicklistMenu {
             background: [background, sbackground],
             text: [text, stext],
             border,

@@ -5,13 +5,13 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct TextInput {
     /// Active state.
-    pub active: Component,
+    pub active: TextInputComponent,
 
     /// Hovered state.
-    pub hovered: Component,
+    pub hovered: TextInputComponent,
 
     /// Focused state.
-    pub focused: Component,
+    pub focused: TextInputComponent,
 
     /// Placeholder color.
     pub placeholder: String,
@@ -24,7 +24,7 @@ pub struct TextInput {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct State {
+pub struct TextInputState {
     /// Key to the background color.
     pub background: String,
 
@@ -33,9 +33,9 @@ pub struct State {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub enum Component {
+pub enum TextInputComponent {
     /// The button state is defined.
-    Defined(State),
+    Defined(TextInputState),
 
     /// The button state is inherited from another button theme.
     Inherited(String),

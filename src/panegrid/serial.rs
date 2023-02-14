@@ -5,14 +5,14 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct PaneGrid {
     /// Picked state.
-    pub picked: Component,
+    pub picked: PaneGridComponent,
 
     /// Hovered state.
-    pub hovered: Component,
+    pub hovered: PaneGridComponent,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct State {
+pub struct PaneGridState {
     /// The color of the line.
     pub color: String,
 
@@ -21,9 +21,9 @@ pub struct State {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub enum Component {
+pub enum PaneGridComponent {
     /// The line state is defined.
-    Defined(State),
+    Defined(PaneGridState),
 
     /// The line state is inherited from another pane grid theme.
     Inherited(String),

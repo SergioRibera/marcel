@@ -5,17 +5,17 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Picklist {
     /// Active state.
-    pub active: StateComponent,
+    pub active: PicklistStateComponent,
 
     /// Hovered state.
-    pub hovered: StateComponent,
+    pub hovered: PicklistStateComponent,
 
     /// Menu theme.
-    pub menu: MenuComponent,
+    pub menu: PicklistMenuComponent,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct State {
+pub struct PicklistState {
     /// Key to the background color.
     pub background: String,
 
@@ -33,7 +33,7 @@ pub struct State {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct Menu {
+pub struct PicklistMenu {
     /// Key to the background color.
     pub background: String,
 
@@ -51,9 +51,9 @@ pub struct Menu {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub enum StateComponent {
+pub enum PicklistStateComponent {
     /// The button state is defined.
-    Defined(State),
+    Defined(PicklistState),
 
     /// The button state is inherited from another button theme.
     Inherited(String),
@@ -63,9 +63,9 @@ pub enum StateComponent {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub enum MenuComponent {
+pub enum PicklistMenuComponent {
     /// The button state is defined.
-    Defined(Menu),
+    Defined(PicklistMenu),
 
     /// The button state is inherited from another button theme.
     Inherited(String),

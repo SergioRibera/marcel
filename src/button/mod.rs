@@ -9,13 +9,13 @@ use iced_native::{
     Vector,
 };
 
-use serial::Component;
+use serial::ButtonComponent;
 
 #[derive(Clone, Copy, Debug)]
 pub struct Button {
     /// State Themes of the button.
     /// In order: active, hovered, pressed, disabled.
-    pub state: [State; 4],
+    pub state: [ButtonState; 4],
 }
 
 impl Button {
@@ -63,16 +63,16 @@ impl Button {
         })
     }
 
-    fn state(serial: &Component, theme: &Theme, index: usize) -> Result<Option<State>, ()> {
+    fn state(serial: &ButtonComponent, theme: &Theme, index: usize) -> Result<Option<ButtonState>, ()> {
         match &serial {
-            Component::Defined(state) => Ok(Some(State::from(&state, &theme)?)),
+            ButtonComponent::Defined(state) => Ok(Some(ButtonState::from(&state, &theme)?)),
 
-            Component::Inherited(name) => match theme.button.get(name.as_str()) {
+            ButtonComponent::Inherited(name) => match theme.button.get(name.as_str()) {
                 Some(button) => Ok(Some(button.state[index].clone())),
                 _ => Err(()),
             },
 
-            Component::None => Ok(None),
+            ButtonComponent::None => Ok(None),
         }
     }
 }
@@ -126,7 +126,7 @@ impl StyleSheet for Button {
 }
 
 #[derive(Clone, Copy, Debug)]
-pub struct State {
+pub struct ButtonState {
     /// Background color.
     pub background: Color,
 
@@ -137,9 +137,9 @@ pub struct State {
     pub border: Border,
 }
 
-impl State {
+impl ButtonState {
     /// Attempts to create a theme from its &serialized version.
-    fn from(serial: &serial::State, theme: &Theme) -> Result<Self, ()> {
+    fn from(serial: &serial::ButtonState, theme: &Theme) -> Result<Self, ()> {
         // Get the background color.
         let background = match theme.color.get(serial.background.as_str()) {
             Some(color) => *color,
@@ -158,7 +158,7 @@ impl State {
             _ => return Err(()),
         };
 
-        Ok(State {
+        Ok(ButtonState {
             background,
             text,
             border,

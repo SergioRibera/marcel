@@ -6,13 +6,13 @@ use crate::{Border, Color, Theme};
 
 use iced_native::widget::text_input::{Appearance, StyleSheet};
 
-use serial::Component;
+use serial::TextInputComponent;
 
 #[derive(Clone, Copy, Debug)]
 pub struct TextInput {
     /// State Themes of the text input.
     /// In order: active, hovered, focused.
-    pub state: [State; 3],
+    pub state: [TextInputState; 3],
 
     /// Colors of the text input.
     pub colors: [Color; 3],
@@ -76,16 +76,16 @@ impl TextInput {
         })
     }
 
-    fn state(serial: &Component, theme: &Theme, index: usize) -> Result<Option<State>, ()> {
+    fn state(serial: &TextInputComponent, theme: &Theme, index: usize) -> Result<Option<TextInputState>, ()> {
         match serial {
-            Component::Defined(state) => Ok(Some(State::from(state, &theme)?)),
+            TextInputComponent::Defined(state) => Ok(Some(TextInputState::from(state, &theme)?)),
 
-            Component::Inherited(name) => match theme.textinput.get(name.as_str()) {
+            TextInputComponent::Inherited(name) => match theme.textinput.get(name.as_str()) {
                 Some(textinput) => Ok(Some(textinput.state[index].clone())),
                 _ => Err(()),
             },
 
-            Component::None => Ok(None),
+            TextInputComponent::None => Ok(None),
         }
     }
 }
@@ -134,7 +134,7 @@ impl StyleSheet for TextInput {
 }
 
 #[derive(Clone, Copy, Debug)]
-pub struct State {
+pub struct TextInputState {
     /// Background color.
     pub background: Color,
 
@@ -142,9 +142,9 @@ pub struct State {
     pub border: Border,
 }
 
-impl State {
+impl TextInputState {
     /// Attempts to create a theme from its &serialized version.
-    fn from(serial: &serial::State, theme: &Theme) -> Result<Self, ()> {
+    fn from(serial: &serial::TextInputState, theme: &Theme) -> Result<Self, ()> {
         // Get the background color.
         let background = match theme.color.get(serial.background.as_str()) {
             Some(color) => *color,
@@ -157,6 +157,6 @@ impl State {
             _ => return Err(()),
         };
 
-        Ok(State { background, border })
+        Ok(TextInputState { background, border })
     }
 }

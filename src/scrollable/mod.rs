@@ -9,13 +9,13 @@ use iced_native::widget::scrollable::{
     StyleSheet,
 };
 
-use serial::Component;
+use serial::ScrollableComponent;
 
 #[derive(Clone, Copy, Debug)]
 pub struct Scrollable {
     /// State Themes of the scrollable.
     /// In order: active, hovered, dragging.
-    pub state: [State; 3],
+    pub state: [ScrollableState; 3],
 }
 
 impl Scrollable {
@@ -56,16 +56,16 @@ impl Scrollable {
         })
     }
 
-    fn state(serial: &Component, theme: &Theme, index: usize) -> Result<Option<State>, ()> {
+    fn state(serial: &ScrollableComponent, theme: &Theme, index: usize) -> Result<Option<ScrollableState>, ()> {
         match &serial {
-            Component::Defined(state) => Ok(Some(State::from(&state, &theme)?)),
+            ScrollableComponent::Defined(state) => Ok(Some(ScrollableState::from(&state, &theme)?)),
 
-            Component::Inherited(name) => match theme.scrollable.get(name.as_str()) {
+            ScrollableComponent::Inherited(name) => match theme.scrollable.get(name.as_str()) {
                 Some(scrollable) => Ok(Some(scrollable.state[index].clone())),
                 _ => Err(()),
             },
 
-            Component::None => Ok(None),
+            ScrollableComponent::None => Ok(None),
         }
     }
 }
@@ -107,7 +107,7 @@ impl StyleSheet for Scrollable {
 }
 
 #[derive(Clone, Copy, Debug)]
-pub struct State {
+pub struct ScrollableState {
     /// Background color.
     pub color: Color,
 
@@ -121,9 +121,9 @@ pub struct State {
     pub sborder: Border,
 }
 
-impl State {
+impl ScrollableState {
     /// Attempts to create a theme from its &serialized version.
-    fn from(serial: &serial::State, theme: &Theme) -> Result<Self, ()> {
+    fn from(serial: &serial::ScrollableState, theme: &Theme) -> Result<Self, ()> {
         // Get the scrollable color.
         let color = match theme.color.get(serial.color.as_str()) {
             Some(color) => *color,
@@ -148,7 +148,7 @@ impl State {
             _ => return Err(()),
         };
 
-        Ok(State {
+        Ok(ScrollableState {
             color,
             border,
             scolor,

@@ -5,20 +5,20 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Button {
     /// Active state.
-    pub(crate) active: Component,
+    pub(crate) active: ButtonComponent,
 
     /// Hovered state.
-    pub(crate) hovered: Component,
+    pub(crate) hovered: ButtonComponent,
 
     /// Pressed state.
-    pub(crate) pressed: Component,
+    pub(crate) pressed: ButtonComponent,
 
     /// Disabled state.
-    pub(crate) disabled: Component,
+    pub(crate) disabled: ButtonComponent,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct State {
+pub struct ButtonState {
     /// Key to the background color.
     pub background: String,
 
@@ -30,9 +30,9 @@ pub struct State {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub enum Component {
+pub enum ButtonComponent {
     /// The theme is defined.
-    Defined(State),
+    Defined(ButtonState),
 
     /// The button state is inherited from another theme.
     Inherited(String),

@@ -6,12 +6,12 @@ use crate::{Color, Theme};
 
 use iced_native::widget::pane_grid::{Line, StyleSheet};
 
-use serial::Component;
+use serial::PaneGridComponent;
 
 #[derive(Clone, Copy, Debug)]
 pub struct PaneGrid {
     /// Pane Grid states.
-    pub state: [State; 2],
+    pub state: [PaneGridState; 2],
 }
 
 impl PaneGrid {
@@ -45,16 +45,16 @@ impl PaneGrid {
         })
     }
 
-    fn state(serial: &serial::Component, theme: &Theme, index: usize) -> Result<Option<State>, ()> {
+    fn state(serial: &serial::PaneGridComponent, theme: &Theme, index: usize) -> Result<Option<PaneGridState>, ()> {
         match &serial {
-            Component::Defined(state) => Ok(Some(State::from(&state, &theme)?)),
+            PaneGridComponent::Defined(state) => Ok(Some(PaneGridState::from(&state, &theme)?)),
 
-            Component::Inherited(name) => match theme.panegrid.get(name.as_str()) {
+            PaneGridComponent::Inherited(name) => match theme.panegrid.get(name.as_str()) {
                 Some(panegrid) => Ok(Some(panegrid.state[index].clone())),
                 _ => Err(()),
             },
 
-            Component::None => Ok(None),
+            PaneGridComponent::None => Ok(None),
         }
     }
 }
@@ -78,7 +78,7 @@ impl StyleSheet for PaneGrid {
 }
 
 #[derive(Clone, Copy, Debug)]
-pub struct State {
+pub struct PaneGridState {
     /// Line color.
     pub color: Color,
 
@@ -86,16 +86,16 @@ pub struct State {
     pub width: f32,
 }
 
-impl State {
+impl PaneGridState {
     /// Attempts to create a theme from its &serialized version.
-    fn from(serial: &serial::State, theme: &Theme) -> Result<Self, ()> {
+    fn from(serial: &serial::PaneGridState, theme: &Theme) -> Result<Self, ()> {
         // Get the background color.
         let color = match theme.color.get(serial.color.as_str()) {
             Some(color) => *color,
             _ => return Err(()),
         };
 
-        Ok(State {
+        Ok(PaneGridState {
             color,
             width: serial.width,
         })
