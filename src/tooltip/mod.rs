@@ -19,22 +19,22 @@ pub struct Tooltip {
 }
 
 impl Tooltip {
-    /// Attempts to create a theme from its serialized version.
-    pub(crate) fn create(serial: &serial::Tooltip, theme: &Theme) -> Result<Self, ()> {
+    /// Attempts to create a theme from its &serialized version.
+    pub(crate) fn create(&serial: &serial::Tooltip, theme: &Theme) -> Result<Self, ()> {
         // Get the background color.
-        let background = match theme.color.get(&serial.background) {
+        let background = match theme.color.get(serial.background.as_str()) {
             Some(color) => *color,
             _ => return Err(()),
         };
 
         // Get the text color.
-        let text = match theme.color.get(&serial.text) {
+        let text = match theme.color.get(serial.text.as_str()) {
             Some(color) => *color,
             _ => return Err(()),
         };
 
         // Get the background color.
-        let border = match theme.border.get(&serial.border) {
+        let border = match theme.border.get(serial.border.as_str()) {
             Some(border) => *border,
             _ => return Err(()),
         };

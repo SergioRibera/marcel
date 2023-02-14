@@ -19,8 +19,8 @@ pub struct Scrollable {
 }
 
 impl Scrollable {
-    /// Attempts to create a theme from its serialized version.
-    pub(crate) fn create(serial: &serial::Scrollable, theme: &Theme) -> Result<Self, ()> {
+    /// Attempts to create a theme from its &serialized version.
+    pub(crate) fn create(&serial: &serial::Scrollable, theme: &Theme) -> Result<Self, ()> {
         // Get all the themes.
         let active = Self::state(&serial.active, theme, 0)?;
         let hovered = Self::state(&serial.hovered, theme, 1)?;
@@ -56,8 +56,8 @@ impl Scrollable {
         })
     }
 
-    fn state(serial: &Component, theme: &Theme, index: usize) -> Result<Option<State>, ()> {
-        match serial {
+    fn state(&serial: &Component, theme: &Theme, index: usize) -> Result<Option<State>, ()> {
+        match &serial {
             Component::Defined(state) => Ok(Some(State::from(&state, &theme)?)),
 
             Component::Inherited(name) => match theme.scrollable.get(name) {
@@ -122,28 +122,28 @@ pub struct State {
 }
 
 impl State {
-    /// Attempts to create a theme from its serialized version.
-    fn from(serial: &serial::State, theme: &Theme) -> Result<Self, ()> {
+    /// Attempts to create a theme from its &serialized version.
+    fn from(&serial: &serial::State, theme: &Theme) -> Result<Self, ()> {
         // Get the scrollable color.
-        let color = match theme.color.get(&serial.color) {
+        let color = match theme.color.get(serial.color.as_str()) {
             Some(color) => *color,
             _ => return Err(()),
         };
 
         // Get the scrollable border.
-        let border = match theme.border.get(&serial.border) {
+        let border = match theme.border.get(serial.border.as_str()) {
             Some(border) => *border,
             _ => return Err(()),
         };
 
         // Get the scroller color.
-        let scolor = match theme.color.get(&serial.scolor) {
+        let scolor = match theme.color.get(serial.scolor.as_str()) {
             Some(color) => *color,
             _ => return Err(()),
         };
 
         // Get the scroller border.
-        let sborder = match theme.border.get(&serial.sborder) {
+        let sborder = match theme.border.get(serial.sborder.as_str()) {
             Some(border) => *border,
             _ => return Err(()),
         };

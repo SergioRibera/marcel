@@ -15,8 +15,8 @@ pub struct PaneGrid {
 }
 
 impl PaneGrid {
-    /// Attempts to create a theme from its serialized version.
-    pub(crate) fn create(serial: &serial::PaneGrid, theme: &Theme) -> Result<Self, ()> {
+    /// Attempts to create a theme from its &serialized version.
+    pub(crate) fn create(&serial: &serial::PaneGrid, theme: &Theme) -> Result<Self, ()> {
         // Get all the themes.
         let picked = Self::state(&serial.picked, theme, 0)?;
         let hovered = Self::state(&serial.hovered, theme, 1)?;
@@ -45,11 +45,11 @@ impl PaneGrid {
         })
     }
 
-    fn state(serial: &serial::Component, theme: &Theme, index: usize) -> Result<Option<State>, ()> {
-        match serial {
+    fn state(&serial: &serial::Component, theme: &Theme, index: usize) -> Result<Option<State>, ()> {
+        match &serial {
             Component::Defined(state) => Ok(Some(State::from(&state, &theme)?)),
 
-            Component::Inherited(name) => match theme.panegrid.get(name) {
+            Component::Inherited(name) => match theme.panegrid.get(name.as_str()) {
                 Some(panegrid) => Ok(Some(panegrid.state[index].clone())),
                 _ => Err(()),
             },
@@ -87,10 +87,10 @@ pub struct State {
 }
 
 impl State {
-    /// Attempts to create a theme from its serialized version.
-    fn from(serial: &serial::State, theme: &Theme) -> Result<Self, ()> {
+    /// Attempts to create a theme from its &serialized version.
+    fn from(&serial: &serial::State, theme: &Theme) -> Result<Self, ()> {
         // Get the background color.
-        let color = match theme.color.get(&serial.color) {
+        let color = match theme.color.get(serial.color.as_str()) {
             Some(color) => *color,
             _ => return Err(()),
         };

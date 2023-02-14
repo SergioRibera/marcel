@@ -3,10 +3,10 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct Container<'a> {
+pub struct Container {
     /// Key to the background color.
-    pub color: &'a str,
+    pub color: String,
 
     /// Key to the border definition.
-    pub border: &'a str,
+    pub border: String,
 }

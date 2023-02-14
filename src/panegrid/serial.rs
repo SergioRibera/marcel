@@ -3,35 +3,30 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct PaneGrid<'a> {
+pub struct PaneGrid {
     /// Picked state.
-    #[serde(borrow)]
-    pub picked: Component<'a>,
+    pub picked: Component,
 
     /// Hovered state.
-    #[serde(borrow)]
-    pub hovered: Component<'a>,
+    pub hovered: Component,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct State<'a> {
+pub struct State {
     /// The color of the line.
-    #[serde(borrow)]
-    pub color: &'a str,
+    pub color: String,
 
     /// Width of the line.
     pub width: f32,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub enum Component<'a> {
+pub enum Component {
     /// The line state is defined.
-    #[serde(borrow)]
-    Defined(State<'a>),
+    Defined(State),
 
     /// The line state is inherited from another pane grid theme.
-    #[serde(borrow)]
-    Inherited(&'a str),
+    Inherited(String),
 
     /// The line state is not defined.
     None,

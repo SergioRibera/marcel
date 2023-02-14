@@ -19,8 +19,8 @@ pub struct Button {
 }
 
 impl Button {
-    /// Attempts to create a theme from its serialized version.
-    pub(crate) fn create(serial: &serial::Button, theme: &Theme) -> Result<Self, ()> {
+    /// Attempts to create a theme from its &serialized version.
+    pub(crate) fn create(&serial: &serial::Button, theme: &Theme) -> Result<Self, ()> {
         // Get all the themes.
         let active = Self::state(&serial.active, theme, 0)?;
         let hovered = Self::state(&serial.hovered, theme, 1)?;
@@ -63,11 +63,11 @@ impl Button {
         })
     }
 
-    fn state(serial: &Component, theme: &Theme, index: usize) -> Result<Option<State>, ()> {
-        match serial {
+    fn state(&serial: &Component, theme: &Theme, index: usize) -> Result<Option<State>, ()> {
+        match &serial {
             Component::Defined(state) => Ok(Some(State::from(&state, &theme)?)),
 
-            Component::Inherited(name) => match theme.button.get(name) {
+            Component::Inherited(name) => match theme.button.get(name.as_str()) {
                 Some(button) => Ok(Some(button.state[index].clone())),
                 _ => Err(()),
             },
@@ -138,22 +138,22 @@ pub struct State {
 }
 
 impl State {
-    /// Attempts to create a theme from its serialized version.
-    fn from(serial: &serial::State, theme: &Theme) -> Result<Self, ()> {
+    /// Attempts to create a theme from its &serialized version.
+    fn from(&serial: &serial::State, theme: &Theme) -> Result<Self, ()> {
         // Get the background color.
-        let background = match theme.color.get(&serial.background) {
+        let background = match theme.color.get(serial.background.as_str()) {
             Some(color) => *color,
             _ => return Err(()),
         };
 
         // Get the text color.
-        let text = match theme.color.get(&serial.text) {
+        let text = match theme.color.get(serial.text.as_str()) {
             Some(color) => *color,
             _ => return Err(()),
         };
 
         // Get the background color.
-        let border = match theme.border.get(&serial.border) {
+        let border = match theme.border.get(serial.border.as_str()) {
             Some(border) => *border,
             _ => return Err(()),
         };

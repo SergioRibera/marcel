@@ -1,4 +1,4 @@
-//! `Theme` represents a serializable collection of a theme.
+//! `Theme` represents a &serializable collection of a theme.
 
 pub(crate) mod serial;
 
@@ -13,7 +13,7 @@ pub struct Theme<'a> {
     pub name: &'a str,
 
     /// Brief description of this theme.
-    /// Used mainly as a helper in the serialized files.
+    /// Used mainly as a helper in the &serialized files.
     pub description: &'a str,
 
     /// General Application Theme
@@ -76,28 +76,28 @@ impl<'a> Theme<'a> {
         }
     }
 
-    /// Attempts to create a theme from its serialized version.
-    pub fn parse(&mut self, theme: &'a serial::Theme) -> Result<usize, ()> {
+    /// Attempts to create a theme from its &serialized version.
+    pub fn parse(&mut self, theme: &'a &serial::Theme) -> Result<usize, ()> {
         // Get the name and description.
-        self.name = theme.name.clone();
-        self.description = theme.description.clone();
+        self.name = theme.name.as_str();
+        self.description = theme.description.as_str();
 
         // Number of failed elements.
         let mut failed = 0;
 
-        // Deserialize all the colors.
+        // De&serialize all the colors.
         self.color = theme
             .color
             .iter()
             .map(|(n, c)| (n.as_str(), c.clone()))
             .collect();
 
-        // Deserialize application
+        // De&serialize application
         self.application = Application::create(&theme.application, &self)?;
 
-        // Deserialize the borders, as they only depend on colors.
-        for (name, serial) in &theme.border {
-            match Border::create(serial, &self) {
+        // De&serialize the borders, as they only depend on colors.
+        for (name, &serial) in &theme.border {
+            match Border::create(&serial, &self) {
                 Ok(b) => {
                     self.border.insert(name.as_str(), b);
                 }
@@ -105,9 +105,9 @@ impl<'a> Theme<'a> {
             }
         }
 
-        // Deserialize the progress bars, as they only depend on colors.
-        for (name, serial) in &theme.progressbar {
-            match ProgressBar::create(serial, &self) {
+        // De&serialize the progress bars, as they only depend on colors.
+        for (name, &serial) in &theme.progressbar {
+            match ProgressBar::create(&serial, &self) {
                 Ok(p) => {
                     self.progressbar.insert(name.as_str(), p);
                 }
@@ -115,9 +115,9 @@ impl<'a> Theme<'a> {
             }
         }
 
-        // Deserialize the containers, as they only depend on colors and borders.
-        for (name, serial) in &theme.container {
-            match Container::create(serial, &self) {
+        // De&serialize the containers, as they only depend on colors and borders.
+        for (name, &serial) in &theme.container {
+            match Container::create(&serial, &self) {
                 Ok(c) => {
                     self.container.insert(name.as_str(), c);
                 }
@@ -125,9 +125,9 @@ impl<'a> Theme<'a> {
             }
         }
 
-        // Deserialize the tooltips, as they only depend on colors and borders.
-        for (name, serial) in &theme.tooltip {
-            match Tooltip::create(serial, &self) {
+        // De&serialize the tooltips, as they only depend on colors and borders.
+        for (name, &serial) in &theme.tooltip {
+            match Tooltip::create(&serial, &self) {
                 Ok(c) => {
                     self.tooltip.insert(name.as_str(), c);
                 }
@@ -135,13 +135,13 @@ impl<'a> Theme<'a> {
             }
         }
 
-        // Deserialize the composable.
+        // De&serialize the composable.
         // Allow a maximum depth of 10.
         // TODO : Instead of maximum depth check for no changes in the set of buttons for a lock.
         for _ in 0..10 {
-            // Deserialize the buttons.
-            for (name, serial) in &theme.button {
-                match Button::create(serial, &self) {
+            // De&serialize the buttons.
+            for (name, &serial) in &theme.button {
+                match Button::create(&serial, &self) {
                     Ok(b) => {
                         self.button.insert(name.as_str(), b);
                     }
@@ -149,9 +149,9 @@ impl<'a> Theme<'a> {
                 }
             }
 
-            // Deserialize the picklists.
-            for (name, serial) in &theme.panegrid {
-                match PaneGrid::create(serial, &self) {
+            // De&serialize the picklists.
+            for (name, &serial) in &theme.panegrid {
+                match PaneGrid::create(&serial, &self) {
                     Ok(p) => {
                         self.panegrid.insert(name.as_str(), p);
                     }
@@ -159,9 +159,9 @@ impl<'a> Theme<'a> {
                 }
             }
 
-            // Deserialize the picklists.
-            for (name, serial) in &theme.picklist {
-                match Picklist::create(serial, &self) {
+            // De&serialize the picklists.
+            for (name, &serial) in &theme.picklist {
+                match Picklist::create(&serial, &self) {
                     Ok(p) => {
                         self.picklist.insert(name.as_str(), p);
                     }
@@ -169,9 +169,9 @@ impl<'a> Theme<'a> {
                 }
             }
 
-            // Deserialize the scrollables.
-            for (name, serial) in &theme.scrollable {
-                match Scrollable::create(serial, &self) {
+            // De&serialize the scrollables.
+            for (name, &serial) in &theme.scrollable {
+                match Scrollable::create(&serial, &self) {
                     Ok(s) => {
                         self.scrollable.insert(name.as_str(), s);
                     }
@@ -179,9 +179,9 @@ impl<'a> Theme<'a> {
                 }
             }
 
-            // Deserialize the text inputs.
-            for (name, serial) in &theme.textinput {
-                match TextInput::create(serial, &self) {
+            // De&serialize the text inputs.
+            for (name, &serial) in &theme.textinput {
+                match TextInput::create(&serial, &self) {
                     Ok(t) => {
                         self.textinput.insert(name.as_str(), t);
                     }

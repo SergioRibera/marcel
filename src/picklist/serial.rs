@@ -3,87 +3,70 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct Picklist<'a> {
+pub struct Picklist {
     /// Active state.
-    #[serde(borrow)]
-    pub active: StateComponent<'a>,
+    pub active: StateComponent,
 
     /// Hovered state.
-    #[serde(borrow)]
-    pub hovered: StateComponent<'a>,
+    pub hovered: StateComponent,
 
     /// Menu theme.
-    #[serde(borrow)]
-    pub menu: MenuComponent<'a>,
+    pub menu: MenuComponent,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct State<'a> {
+pub struct State {
     /// Key to the background color.
-    #[serde(borrow)]
-    pub background: &'a str,
+    pub background: String,
 
     /// Key to the text color.
-    #[serde(borrow)]
-    pub text: &'a str,
+    pub text: String,
 
     /// Key to the placeholder color.
-    #[serde(borrow)]
-    pub placeholder: &'a str,
+    pub placeholder: String,
 
     /// Key to the border theme.
-    #[serde(borrow)]
-    pub border: &'a str,
+    pub border: String,
 
     /// Handle color.
-    #[serde(borrow)]
-    pub handle: &'a str,
+    pub handle: String,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct Menu<'a> {
+pub struct Menu {
     /// Key to the background color.
-    #[serde(borrow)]
-    pub background: &'a str,
+    pub background: String,
 
     /// Key to the text color.
-    #[serde(borrow)]
-    pub text: &'a str,
+    pub text: String,
 
     /// Key to the border theme.
-    #[serde(borrow)]
-    pub border: &'a str,
+    pub border: String,
 
     /// Key to the selected background color.
-    #[serde(borrow)]
-    pub sbackground: &'a str,
+    pub sbackground: String,
 
     /// Key to the selected text color.
-    #[serde(borrow)]
-    pub stext: &'a str,
+    pub stext: String,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub enum StateComponent<'a> {
+pub enum StateComponent {
     /// The button state is defined.
-    #[serde(borrow)]
-    Defined(State<'a>),
+    Defined(State),
 
     /// The button state is inherited from another button theme.
-    #[serde(borrow)]
-    Inherited(&'a str),
+    Inherited(String),
 
     /// The button state is not defined.
     None,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub enum MenuComponent<'a> {
+pub enum MenuComponent {
     /// The button state is defined.
-    #[serde(borrow)]
-    Defined(Menu<'a>),
+    Defined(Menu),
 
     /// The button state is inherited from another button theme.
-    #[serde(borrow)]
-    Inherited(&'a str),
+    Inherited(String),
 }

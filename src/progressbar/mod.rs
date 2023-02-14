@@ -19,16 +19,16 @@ pub struct ProgressBar {
 }
 
 impl ProgressBar {
-    /// Attempts to create a theme from its serialized version.
-    pub(crate) fn create(serial: &serial::ProgressBar, theme: &Theme) -> Result<Self, ()> {
+    /// Attempts to create a theme from its &serialized version.
+    pub(crate) fn create(&serial: &serial::ProgressBar, theme: &Theme) -> Result<Self, ()> {
         // Get the color of the progress bar background.
-        let background = match theme.color.get(&serial.background) {
+        let background = match theme.color.get(serial.background.as_str()) {
             Some(color) => *color,
             _ => return Err(()),
         };
 
         // Get the border of the progress bar bar.
-        let bar = match theme.color.get(&serial.bar) {
+        let bar = match theme.color.get(serial.bar.as_str()) {
             Some(color) => *color,
             _ => return Err(()),
         };

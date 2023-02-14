@@ -18,8 +18,8 @@ pub struct Picklist {
 }
 
 impl Picklist {
-    /// Attempts to create a theme from its serialized version.
-    pub(crate) fn create(serial: &serial::Picklist, theme: &Theme) -> Result<Self, ()> {
+    /// Attempts to create a theme from its &serialized version.
+    pub(crate) fn create(&serial: &serial::Picklist, theme: &Theme) -> Result<Self, ()> {
         // Get all the themes.
         let active = Self::state(&serial.active, theme, 0)?;
         let hovered = Self::state(&serial.hovered, theme, 1)?;
@@ -54,14 +54,14 @@ impl Picklist {
     }
 
     fn state(
-        serial: &serial::StateComponent,
+        &serial: &serial::StateComponent,
         theme: &Theme,
         index: usize,
     ) -> Result<Option<State>, ()> {
-        match serial {
+        match &serial {
             StateComponent::Defined(state) => Ok(Some(State::from(&state, &theme)?)),
 
-            StateComponent::Inherited(name) => match theme.picklist.get(name) {
+            StateComponent::Inherited(name) => match theme.picklist.get(name.as_str()) {
                 Some(picklist) => Ok(Some(picklist.state[index].clone())),
                 _ => Err(()),
             },
@@ -70,11 +70,11 @@ impl Picklist {
         }
     }
 
-    fn menu(serial: &serial::MenuComponent, theme: &Theme) -> Result<Menu, ()> {
-        match serial {
+    fn menu(&serial: &serial::MenuComponent, theme: &Theme) -> Result<Menu, ()> {
+        match &serial {
             MenuComponent::Defined(state) => Ok(Menu::from(&state, &theme)?),
 
-            MenuComponent::Inherited(name) => match theme.picklist.get(name) {
+            MenuComponent::Inherited(name) => match theme.picklist.get(name.as_str()) {
                 Some(picklist) => Ok(picklist.menu.clone()),
                 _ => Err(()),
             },
@@ -129,33 +129,33 @@ pub struct State {
 }
 
 impl State {
-    /// Attempts to create a theme from its serialized version.
-    fn from(serial: &serial::State, theme: &Theme) -> Result<Self, ()> {
+    /// Attempts to create a theme from its &serialized version.
+    fn from(&serial: &serial::State, theme: &Theme) -> Result<Self, ()> {
         // Get the background color.
-        let background = match theme.color.get(&serial.background) {
+        let background = match theme.color.get(serial.background.as_str()) {
             Some(color) => *color,
             _ => return Err(()),
         };
 
         // Get the text color.
-        let text = match theme.color.get(&serial.text) {
+        let text = match theme.color.get(serial.text.as_str()) {
             Some(color) => *color,
             _ => return Err(()),
         };
 
         // Get the placeholder color.
-        let placeholder = match theme.color.get(&serial.placeholder) {
+        let placeholder = match theme.color.get(serial.placeholder.as_str()) {
             Some(color) => *color,
             _ => return Err(()),
         };
 
         // Get the background color.
-        let border = match theme.border.get(&serial.border) {
+        let border = match theme.border.get(serial.border.as_str()) {
             Some(border) => *border,
             _ => return Err(()),
         };
 
-        let handle = match theme.color.get(&serial.handle) {
+        let handle = match theme.color.get(serial.handle.as_str()) {
             Some(color) => *color,
             _ => return Err(()),
         };
@@ -183,32 +183,32 @@ pub struct Menu {
 }
 
 impl Menu {
-    /// Attempts to create a theme from its serialized version.
-    fn from(serial: &serial::Menu, theme: &Theme) -> Result<Self, ()> {
+    /// Attempts to create a theme from its &serialized version.
+    fn from(&serial: &serial::Menu, theme: &Theme) -> Result<Self, ()> {
         // Get the background colors.
-        let background = match theme.color.get(&serial.background) {
+        let background = match theme.color.get(serial.background.as_str()) {
             Some(color) => *color,
             _ => return Err(()),
         };
 
-        let sbackground = match theme.color.get(&serial.sbackground) {
+        let sbackground = match theme.color.get(serial.sbackground.as_str()) {
             Some(color) => *color,
             _ => return Err(()),
         };
 
         // Get the text color.
-        let text = match theme.color.get(&serial.text) {
+        let text = match theme.color.get(serial.text.as_str()) {
             Some(color) => *color,
             _ => return Err(()),
         };
 
-        let stext = match theme.color.get(&serial.stext) {
+        let stext = match theme.color.get(serial.stext.as_str()) {
             Some(color) => *color,
             _ => return Err(()),
         };
 
         // Get the background color.
-        let border = match theme.border.get(&serial.border) {
+        let border = match theme.border.get(serial.border.as_str()) {
             Some(border) => *border,
             _ => return Err(()),
         };

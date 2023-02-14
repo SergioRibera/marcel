@@ -3,42 +3,42 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct TextInput<'a> {
+pub struct TextInput {
     /// Active state.
-    pub active: Component<'a>,
+    pub active: Component,
 
     /// Hovered state.
-    pub hovered: Component<'a>,
+    pub hovered: Component,
 
     /// Focused state.
-    pub focused: Component<'a>,
+    pub focused: Component,
 
     /// Placeholder color.
-    pub placeholder: &'a str,
+    pub placeholder: String,
 
     /// Value color.
-    pub value: &'a str,
+    pub value: String,
 
     /// Selection color.
-    pub selection: &'a str,
+    pub selection: String,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct State<'a> {
+pub struct State {
     /// Key to the background color.
-    pub background: &'a str,
+    pub background: String,
 
     /// Key to the border theme.
-    pub border: &'a str,
+    pub border: String,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub enum Component<'a> {
+pub enum Component {
     /// The button state is defined.
-    Defined(State<'a>),
+    Defined(State),
 
     /// The button state is inherited from another button theme.
-    Inherited(&'a str),
+    Inherited(String),
 
     /// The button state is not defined.
     None,

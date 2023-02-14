@@ -3,48 +3,39 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct Button<'a> {
+pub struct Button {
     /// Active state.
-    #[serde(borrow)]
-    pub(super) active: Component<'a>,
+    pub(super) active: Component,
 
     /// Hovered state.
-    #[serde(borrow)]
-    pub(super) hovered: Component<'a>,
+    pub(super) hovered: Component,
 
     /// Pressed state.
-    #[serde(borrow)]
-    pub(super) pressed: Component<'a>,
+    pub(super) pressed: Component,
 
     /// Disabled state.
-    #[serde(borrow)]
-    pub(super) disabled: Component<'a>,
+    pub(super) disabled: Component,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct State<'a> {
+pub struct State {
     /// Key to the background color.
-    #[serde(borrow)]
-    pub(super) background: &'a str,
+    pub(super) background: String,
 
     /// Key to the text color.
-    #[serde(borrow)]
-    pub(super) text: &'a str,
+    pub(super) text: String,
 
     /// Key to the border theme.
-    #[serde(borrow)]
-    pub(super) border: &'a str,
+    pub(super) border: String,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub enum Component<'a> {
+pub enum Component {
     /// The theme is defined.
-    #[serde(borrow)]
-    Defined(State<'a>),
+    Defined(State),
 
     /// The button state is inherited from another theme.
-    #[serde(borrow)]
-    Inherited(&'a str),
+    Inherited(String),
 
     /// The theme is not defined.
     None,

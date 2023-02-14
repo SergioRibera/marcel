@@ -3,12 +3,12 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct ProgressBar<'a> {
+pub struct ProgressBar {
     /// Key to the background color.
-    pub background: &'a str,
+    pub background: String,
 
     /// Key to the bar color.
-    pub bar: &'a str,
+    pub bar: String,
 
     /// Border radius.
     pub radius: f32,

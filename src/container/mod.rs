@@ -16,16 +16,16 @@ pub struct Container {
 }
 
 impl Container {
-    /// Attempts to create a theme from its serialized version.
-    pub(crate) fn create(serial: &serial::Container, theme: &Theme) -> Result<Self, ()> {
+    /// Attempts to create a theme from its &serialized version.
+    pub(crate) fn create(&serial: &serial::Container, theme: &Theme) -> Result<Self, ()> {
         // Get the color of the container.
-        let color = match theme.color.get(&serial.color) {
+        let color = match theme.color.get(serial.color.as_str()) {
             Some(color) => *color,
             _ => return Err(()),
         };
 
         // Get the border of the container.
-        let border = match theme.border.get(&serial.border) {
+        let border = match theme.border.get(serial.border.as_str()) {
             Some(border) => *border,
             _ => return Err(()),
         };

@@ -3,13 +3,13 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct Tooltip<'a> {
+pub struct Tooltip {
     /// Key to the background color.
-    pub background: &'a str,
+    pub background: String,
 
     /// Key to the text color.
-    pub text: &'a str,
+    pub text: String,
 
     /// Key to the border definition.
-    pub border: &'a str,
+    pub border: String,
 }
