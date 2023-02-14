@@ -7,55 +7,55 @@ use crate::*;
 use std::collections::HashMap;
 
 #[derive(Clone, Default, Debug)]
-pub struct Theme<'a> {
+pub struct Theme {
     /// Name of this theme.
     /// This can be used to index a set of themes inside a `Hashmap`.
-    pub name: &'a str,
+    pub name: String,
 
     /// Brief description of this theme.
     /// Used mainly as a helper in the &serialized files.
-    pub description: &'a str,
+    pub description: String,
 
     /// General Application Theme
     pub application: Application,
 
     /// Maps name keys to border themes.
-    pub border: HashMap<&'a str, Border>,
+    pub border: HashMap<String, Border>,
 
     // Maps name keys to button themes.
-    pub button: HashMap<&'a str, Button>,
+    pub button: HashMap<String, Button>,
 
     /// Maps name keys to colors.
-    pub color: HashMap<&'a str, Color>,
+    pub color: HashMap<String, Color>,
 
     /// Maps name keys to container themes.
-    pub container: HashMap<&'a str, Container>,
+    pub container: HashMap<String, Container>,
 
     /// Maps name keys to panegrid themes.
-    pub panegrid: HashMap<&'a str, PaneGrid>,
+    pub panegrid: HashMap<String, PaneGrid>,
 
     /// Maps name keys to picklist themes.
-    pub picklist: HashMap<&'a str, Picklist>,
+    pub picklist: HashMap<String, Picklist>,
 
     /// Maps name keys to progress bar themes.
-    pub progressbar: HashMap<&'a str, ProgressBar>,
+    pub progressbar: HashMap<String, ProgressBar>,
 
     /// Maps name keys to scrollable themes.
-    pub scrollable: HashMap<&'a str, Scrollable>,
+    pub scrollable: HashMap<String, Scrollable>,
 
     /// Maps name keys to text input themes.
-    pub textinput: HashMap<&'a str, TextInput>,
+    pub textinput: HashMap<String, TextInput>,
 
     /// Maps name keys to tooltip themes.
-    pub tooltip: HashMap<&'a str, Tooltip>,
+    pub tooltip: HashMap<String, Tooltip>,
 }
 
-impl<'a> Theme<'a> {
+impl Theme {
     /// Creates an empty theme.
     pub fn new() -> Self {
         Theme {
-            name: "",
-            description: "",
+            name: String::new(),
+            description: String::new(),
 
             application: Application::default(),
 
@@ -77,10 +77,10 @@ impl<'a> Theme<'a> {
     }
 
     /// Attempts to create a theme from its &serialized version.
-    pub fn parse(theme: &'a serial::Theme) -> Result<Self, ()> {
+    pub fn parse(theme: &serial::Theme) -> Result<Self, ()> {
         let mut new_theme = Self {
-            name: theme.name.as_str(),
-            description: theme.description.as_str(),
+            name: theme.name.clone(),
+            description: theme.description.clone(),
             ..Default::default()
         };
 
@@ -88,7 +88,7 @@ impl<'a> Theme<'a> {
         new_theme.color = theme
             .color
             .iter()
-            .map(|(n, c)| (n.as_str(), c.clone()))
+            .map(|(n, c)| (n.clone(), c.clone()))
             .collect();
 
         // De&serialize application
@@ -97,25 +97,25 @@ impl<'a> Theme<'a> {
         // De&serialize the borders, as they only depend on colors.
         for (name, serial) in &theme.border {
             let v = Border::create(serial, &new_theme)?;
-            new_theme.border.insert(name.as_str(), v);
+            new_theme.border.insert(name.clone(), v);
         }
 
         // De&serialize the progress bars, as they only depend on colors.
         for (name, serial) in &theme.progressbar {
             let v = ProgressBar::create(serial, &new_theme)?;
-            new_theme.progressbar.insert(name.as_str(), v);
+            new_theme.progressbar.insert(name.clone(), v);
         }
 
         // De&serialize the containers, as they only depend on colors and borders.
         for (name, serial) in &theme.container {
             let c = Container::create(serial, &new_theme)?;
-            new_theme.container.insert(name.as_str(), c);
+            new_theme.container.insert(name.clone(), c);
         }
 
         // De&serialize the tooltips, as they only depend on colors and borders.
         for (name, serial) in &theme.tooltip {
             let c = Tooltip::create(serial, &new_theme)?;
-            new_theme.tooltip.insert(name.as_str(), c);
+            new_theme.tooltip.insert(name.clone(), c);
         }
 
         // De&serialize the composable.
@@ -125,31 +125,31 @@ impl<'a> Theme<'a> {
             // De&serialize the buttons.
             for (name, serial) in &theme.button {
                 let b = Button::create(serial, &new_theme)?;
-                new_theme.button.insert(name.as_str(), b);
+                new_theme.button.insert(name.clone(), b);
             }
 
             // De&serialize the picklists.
             for (name, serial) in &theme.panegrid {
                 let p = PaneGrid::create(serial, &new_theme)?;
-                new_theme.panegrid.insert(name.as_str(), p);
+                new_theme.panegrid.insert(name.clone(), p);
             }
 
             // De&serialize the picklists.
             for (name, serial) in &theme.picklist {
                 let p = Picklist::create(serial, &new_theme)?;
-                new_theme.picklist.insert(name.as_str(), p);
+                new_theme.picklist.insert(name.clone(), p);
             }
 
             // De&serialize the scrollables.
             for (name, serial) in &theme.scrollable {
                 let s = Scrollable::create(serial, &new_theme)?;
-                new_theme.scrollable.insert(name.as_str(), s);
+                new_theme.scrollable.insert(name.clone(), s);
             }
 
             // De&serialize the text inputs.
             for (name, serial) in &theme.textinput {
                 let t = TextInput::create(serial, &new_theme)?;
-                new_theme.textinput.insert(name.as_str(), t);
+                new_theme.textinput.insert(name.clone(), t);
             }
         }
 
@@ -157,7 +157,7 @@ impl<'a> Theme<'a> {
     }
 }
 
-impl<'a> core::fmt::Display for Theme<'a> {
+impl core::fmt::Display for Theme {
     fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
         // Create the buffer string.
         let mut string = String::new();

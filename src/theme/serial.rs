@@ -90,7 +90,7 @@ fn get_border_name(
     value.unwrap()
 }
 
-impl<'a> From<NormalTheme<'a>> for Theme {
+impl From<NormalTheme> for Theme {
     fn from(theme: NormalTheme) -> Self {
         // Deserialize all the colors.
         let mut color = theme
