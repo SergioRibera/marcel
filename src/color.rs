@@ -241,7 +241,7 @@ impl Serialize for Color {
         S: serde::Serializer,
     {
         serializer.collect_str(&format!(
-            "rgba({} {} {} {})",
+            "rgba({}, {}, {}, {})",
             self.0, self.1, self.2, self.3
         ))
     }
