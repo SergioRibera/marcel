@@ -20,7 +20,7 @@ pub struct ProgressBar {
 
 impl ProgressBar {
     /// Attempts to create a theme from its &serialized version.
-    pub(crate) fn create(&serial: &serial::ProgressBar, theme: &Theme) -> Result<Self, ()> {
+    pub(crate) fn create(serial: &serial::ProgressBar, theme: &Theme) -> Result<Self, ()> {
         // Get the color of the progress bar background.
         let background = match theme.color.get(serial.background.as_str()) {
             Some(color) => *color,

@@ -19,7 +19,7 @@ pub struct Picklist {
 
 impl Picklist {
     /// Attempts to create a theme from its &serialized version.
-    pub(crate) fn create(&serial: &serial::Picklist, theme: &Theme) -> Result<Self, ()> {
+    pub(crate) fn create(serial: &serial::Picklist, theme: &Theme) -> Result<Self, ()> {
         // Get all the themes.
         let active = Self::state(&serial.active, theme, 0)?;
         let hovered = Self::state(&serial.hovered, theme, 1)?;
@@ -54,7 +54,7 @@ impl Picklist {
     }
 
     fn state(
-        &serial: &serial::StateComponent,
+        serial: &serial::StateComponent,
         theme: &Theme,
         index: usize,
     ) -> Result<Option<State>, ()> {
@@ -70,7 +70,7 @@ impl Picklist {
         }
     }
 
-    fn menu(&serial: &serial::MenuComponent, theme: &Theme) -> Result<Menu, ()> {
+    fn menu(serial: &serial::MenuComponent, theme: &Theme) -> Result<Menu, ()> {
         match &serial {
             MenuComponent::Defined(state) => Ok(Menu::from(&state, &theme)?),
 
@@ -130,7 +130,7 @@ pub struct State {
 
 impl State {
     /// Attempts to create a theme from its &serialized version.
-    fn from(&serial: &serial::State, theme: &Theme) -> Result<Self, ()> {
+    fn from(serial: &serial::State, theme: &Theme) -> Result<Self, ()> {
         // Get the background color.
         let background = match theme.color.get(serial.background.as_str()) {
             Some(color) => *color,
@@ -184,7 +184,7 @@ pub struct Menu {
 
 impl Menu {
     /// Attempts to create a theme from its &serialized version.
-    fn from(&serial: &serial::Menu, theme: &Theme) -> Result<Self, ()> {
+    fn from(serial: &serial::Menu, theme: &Theme) -> Result<Self, ()> {
         // Get the background colors.
         let background = match theme.color.get(serial.background.as_str()) {
             Some(color) => *color,

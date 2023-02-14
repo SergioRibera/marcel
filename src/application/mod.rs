@@ -11,14 +11,14 @@ pub struct Application {
 }
 
 impl Application {
-    pub(crate) fn create(&serial: &serial::Application, theme: &Theme) -> Result<Self, ()> {
+    pub(crate) fn create(serial: &serial::Application, theme: &Theme) -> Result<Self, ()> {
         let bg = theme
             .color
-            .get(&serial.background_color)
+            .get(serial.background_color.as_str())
             .ok_or_else(|| ())?;
         let text = theme
             .color
-            .get(&serial.background_color)
+            .get(serial.background_color.as_str())
             .ok_or_else(|| ())?;
 
         Ok(Self {

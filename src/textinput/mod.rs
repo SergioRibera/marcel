@@ -20,7 +20,7 @@ pub struct TextInput {
 
 impl TextInput {
     /// Attempts to create a theme from its &serialized version.
-    pub(crate) fn create(&serial: &serial::TextInput, theme: &Theme) -> Result<Self, ()> {
+    pub(crate) fn create(serial: &serial::TextInput, theme: &Theme) -> Result<Self, ()> {
         // Get all the themes.
         let active = Self::state(&serial.active, theme, 0)?;
         let hovered = Self::state(&serial.hovered, theme, 1)?;
@@ -76,11 +76,11 @@ impl TextInput {
         })
     }
 
-    fn state(&serial: &Component, theme: &Theme, index: usize) -> Result<Option<State>, ()> {
-        match &serial {
-            Component::Defined(state) => Ok(Some(State::from(&state, &theme)?)),
+    fn state(serial: &Component, theme: &Theme, index: usize) -> Result<Option<State>, ()> {
+        match serial {
+            Component::Defined(state) => Ok(Some(State::from(state, &theme)?)),
 
-            Component::Inherited(name) => match theme.textinput.get(name) {
+            Component::Inherited(name) => match theme.textinput.get(name.as_str()) {
                 Some(textinput) => Ok(Some(textinput.state[index].clone())),
                 _ => Err(()),
             },
@@ -144,7 +144,7 @@ pub struct State {
 
 impl State {
     /// Attempts to create a theme from its &serialized version.
-    fn from(&serial: &serial::State, theme: &Theme) -> Result<Self, ()> {
+    fn from(serial: &serial::State, theme: &Theme) -> Result<Self, ()> {
         // Get the background color.
         let background = match theme.color.get(serial.background.as_str()) {
             Some(color) => *color,

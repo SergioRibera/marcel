@@ -5,28 +5,28 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Button {
     /// Active state.
-    pub(super) active: Component,
+    pub(crate) active: Component,
 
     /// Hovered state.
-    pub(super) hovered: Component,
+    pub(crate) hovered: Component,
 
     /// Pressed state.
-    pub(super) pressed: Component,
+    pub(crate) pressed: Component,
 
     /// Disabled state.
-    pub(super) disabled: Component,
+    pub(crate) disabled: Component,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct State {
     /// Key to the background color.
-    pub(super) background: String,
+    pub(crate) background: String,
 
     /// Key to the text color.
-    pub(super) text: String,
+    pub(crate) text: String,
 
     /// Key to the border theme.
-    pub(super) border: String,
+    pub(crate) border: String,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]

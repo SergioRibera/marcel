@@ -16,7 +16,7 @@ pub struct PaneGrid {
 
 impl PaneGrid {
     /// Attempts to create a theme from its &serialized version.
-    pub(crate) fn create(&serial: &serial::PaneGrid, theme: &Theme) -> Result<Self, ()> {
+    pub(crate) fn create(serial: &serial::PaneGrid, theme: &Theme) -> Result<Self, ()> {
         // Get all the themes.
         let picked = Self::state(&serial.picked, theme, 0)?;
         let hovered = Self::state(&serial.hovered, theme, 1)?;
@@ -45,7 +45,7 @@ impl PaneGrid {
         })
     }
 
-    fn state(&serial: &serial::Component, theme: &Theme, index: usize) -> Result<Option<State>, ()> {
+    fn state(serial: &serial::Component, theme: &Theme, index: usize) -> Result<Option<State>, ()> {
         match &serial {
             Component::Defined(state) => Ok(Some(State::from(&state, &theme)?)),
 
@@ -88,7 +88,7 @@ pub struct State {
 
 impl State {
     /// Attempts to create a theme from its &serialized version.
-    fn from(&serial: &serial::State, theme: &Theme) -> Result<Self, ()> {
+    fn from(serial: &serial::State, theme: &Theme) -> Result<Self, ()> {
         // Get the background color.
         let color = match theme.color.get(serial.color.as_str()) {
             Some(color) => *color,

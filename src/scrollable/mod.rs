@@ -20,7 +20,7 @@ pub struct Scrollable {
 
 impl Scrollable {
     /// Attempts to create a theme from its &serialized version.
-    pub(crate) fn create(&serial: &serial::Scrollable, theme: &Theme) -> Result<Self, ()> {
+    pub(crate) fn create(serial: &serial::Scrollable, theme: &Theme) -> Result<Self, ()> {
         // Get all the themes.
         let active = Self::state(&serial.active, theme, 0)?;
         let hovered = Self::state(&serial.hovered, theme, 1)?;
@@ -56,11 +56,11 @@ impl Scrollable {
         })
     }
 
-    fn state(&serial: &Component, theme: &Theme, index: usize) -> Result<Option<State>, ()> {
+    fn state(serial: &Component, theme: &Theme, index: usize) -> Result<Option<State>, ()> {
         match &serial {
             Component::Defined(state) => Ok(Some(State::from(&state, &theme)?)),
 
-            Component::Inherited(name) => match theme.scrollable.get(name) {
+            Component::Inherited(name) => match theme.scrollable.get(name.as_str()) {
                 Some(scrollable) => Ok(Some(scrollable.state[index].clone())),
                 _ => Err(()),
             },
@@ -123,7 +123,7 @@ pub struct State {
 
 impl State {
     /// Attempts to create a theme from its &serialized version.
-    fn from(&serial: &serial::State, theme: &Theme) -> Result<Self, ()> {
+    fn from(serial: &serial::State, theme: &Theme) -> Result<Self, ()> {
         // Get the scrollable color.
         let color = match theme.color.get(serial.color.as_str()) {
             Some(color) => *color,

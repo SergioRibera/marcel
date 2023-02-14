@@ -52,7 +52,7 @@ pub struct Theme {
 }
 
 fn get_color_name(colors: &mut HashMap<String, Color>, c: &Color) -> String {
-    let value = colors.iter().find(|color| color.1 == c).map(|r| *r.0);
+    let value = colors.iter().find(|color| color.1 == c).map(|r| r.0.to_string());
     if value.is_none() {
         let default_name = format!("color_{}", colors.len());
         colors.insert(default_name.clone(), c.clone());
@@ -74,7 +74,7 @@ fn get_border_name(
                 && border.1.color == color_name.clone()
                 && border.1.width == b.width
         })
-        .map(|r| *r.0);
+        .map(|r| r.0.to_string());
     if value.is_none() {
         let default_name = format!("border_{}", borders.len());
         borders.insert(
@@ -113,7 +113,7 @@ impl<'a> From<NormalTheme<'a>> for Theme {
             })
             .collect::<HashMap<String, Border>>();
 
-        let mut button = theme
+        let button = theme
             .button
             .iter()
             .map(|(name, btn)| {

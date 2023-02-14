@@ -20,7 +20,7 @@ pub struct Button {
 
 impl Button {
     /// Attempts to create a theme from its &serialized version.
-    pub(crate) fn create(&serial: &serial::Button, theme: &Theme) -> Result<Self, ()> {
+    pub(crate) fn create(serial: &serial::Button, theme: &Theme) -> Result<Self, ()> {
         // Get all the themes.
         let active = Self::state(&serial.active, theme, 0)?;
         let hovered = Self::state(&serial.hovered, theme, 1)?;
@@ -63,7 +63,7 @@ impl Button {
         })
     }
 
-    fn state(&serial: &Component, theme: &Theme, index: usize) -> Result<Option<State>, ()> {
+    fn state(serial: &Component, theme: &Theme, index: usize) -> Result<Option<State>, ()> {
         match &serial {
             Component::Defined(state) => Ok(Some(State::from(&state, &theme)?)),
 
@@ -139,7 +139,7 @@ pub struct State {
 
 impl State {
     /// Attempts to create a theme from its &serialized version.
-    fn from(&serial: &serial::State, theme: &Theme) -> Result<Self, ()> {
+    fn from(serial: &serial::State, theme: &Theme) -> Result<Self, ()> {
         // Get the background color.
         let background = match theme.color.get(serial.background.as_str()) {
             Some(color) => *color,
