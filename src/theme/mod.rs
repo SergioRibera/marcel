@@ -77,62 +77,45 @@ impl<'a> Theme<'a> {
     }
 
     /// Attempts to create a theme from its &serialized version.
-    pub fn parse(&mut self, theme: &'a serial::Theme) -> Result<usize, ()> {
-        // Get the name and description.
-        self.name = theme.name.as_str();
-        self.description = theme.description.as_str();
-
-        // Number of failed elements.
-        let mut failed = 0;
+    pub fn parse(theme: &'a serial::Theme) -> Result<Self, ()> {
+        let mut new_theme = Self {
+            name: theme.name.as_str(),
+            description: theme.description.as_str(),
+            ..Default::default()
+        };
 
         // De&serialize all the colors.
-        self.color = theme
+        new_theme.color = theme
             .color
             .iter()
             .map(|(n, c)| (n.as_str(), c.clone()))
             .collect();
 
         // De&serialize application
-        self.application = Application::create(&theme.application, &self)?;
+        new_theme.application = Application::create(&theme.application, &new_theme)?;
 
         // De&serialize the borders, as they only depend on colors.
         for (name, serial) in &theme.border {
-            match Border::create(serial, &self) {
-                Ok(b) => {
-                    self.border.insert(name.as_str(), b);
-                }
-                Err(_) => failed += 1,
-            }
+            let v = Border::create(serial, &new_theme)?;
+            new_theme.border.insert(name.as_str(), v);
         }
 
         // De&serialize the progress bars, as they only depend on colors.
         for (name, serial) in &theme.progressbar {
-            match ProgressBar::create(serial, &self) {
-                Ok(p) => {
-                    self.progressbar.insert(name.as_str(), p);
-                }
-                Err(_) => failed += 1,
-            }
+            let v = ProgressBar::create(serial, &new_theme)?;
+            new_theme.progressbar.insert(name.as_str(), v);
         }
 
         // De&serialize the containers, as they only depend on colors and borders.
         for (name, serial) in &theme.container {
-            match Container::create(serial, &self) {
-                Ok(c) => {
-                    self.container.insert(name.as_str(), c);
-                }
-                Err(_) => failed += 1,
-            }
+            let c = Container::create(serial, &new_theme)?;
+            new_theme.container.insert(name.as_str(), c);
         }
 
         // De&serialize the tooltips, as they only depend on colors and borders.
         for (name, serial) in &theme.tooltip {
-            match Tooltip::create(serial, &self) {
-                Ok(c) => {
-                    self.tooltip.insert(name.as_str(), c);
-                }
-                Err(_) => failed += 1,
-            }
+            let c = Tooltip::create(serial, &new_theme)?;
+            new_theme.tooltip.insert(name.as_str(), c);
         }
 
         // De&serialize the composable.
@@ -141,56 +124,36 @@ impl<'a> Theme<'a> {
         for _ in 0..10 {
             // De&serialize the buttons.
             for (name, serial) in &theme.button {
-                match Button::create(serial, &self) {
-                    Ok(b) => {
-                        self.button.insert(name.as_str(), b);
-                    }
-                    Err(_) => failed += 1,
-                }
+                let b = Button::create(serial, &new_theme)?;
+                new_theme.button.insert(name.as_str(), b);
             }
 
             // De&serialize the picklists.
             for (name, serial) in &theme.panegrid {
-                match PaneGrid::create(serial, &self) {
-                    Ok(p) => {
-                        self.panegrid.insert(name.as_str(), p);
-                    }
-                    Err(_) => failed += 1,
-                }
+                let p = PaneGrid::create(serial, &new_theme)?;
+                new_theme.panegrid.insert(name.as_str(), p);
             }
 
             // De&serialize the picklists.
             for (name, serial) in &theme.picklist {
-                match Picklist::create(serial, &self) {
-                    Ok(p) => {
-                        self.picklist.insert(name.as_str(), p);
-                    }
-                    Err(_) => failed += 1,
-                }
+                let p = Picklist::create(serial, &new_theme)?;
+                new_theme.picklist.insert(name.as_str(), p);
             }
 
             // De&serialize the scrollables.
             for (name, serial) in &theme.scrollable {
-                match Scrollable::create(serial, &self) {
-                    Ok(s) => {
-                        self.scrollable.insert(name.as_str(), s);
-                    }
-                    Err(_) => failed += 1,
-                }
+                let s = Scrollable::create(serial, &new_theme)?;
+                new_theme.scrollable.insert(name.as_str(), s);
             }
 
             // De&serialize the text inputs.
             for (name, serial) in &theme.textinput {
-                match TextInput::create(serial, &self) {
-                    Ok(t) => {
-                        self.textinput.insert(name.as_str(), t);
-                    }
-                    Err(_) => failed += 1,
-                }
+                let t = TextInput::create(serial, &new_theme)?;
+                new_theme.textinput.insert(name.as_str(), t);
             }
         }
 
-        Ok(failed)
+        Ok(new_theme)
     }
 }
 
