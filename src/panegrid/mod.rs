@@ -4,7 +4,7 @@ pub mod serial;
 
 use crate::{Color, Theme};
 
-use iced_native::widget::pane_grid::{Line, StyleSheet};
+use iced::widget::pane_grid::{Line, StyleSheet};
 
 use serial::PaneGridComponent;
 

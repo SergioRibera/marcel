@@ -4,7 +4,7 @@ pub mod serial;
 
 use crate::{Border, Color, Theme};
 
-use iced_native::widget::text_input::{Appearance, StyleSheet};
+use iced::widget::text_input::{Appearance, StyleSheet};
 
 use serial::TextInputComponent;
 

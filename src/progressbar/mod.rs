@@ -4,7 +4,7 @@ pub mod serial;
 
 use crate::{Color, Theme};
 
-use iced_native::widget::progress_bar::{Appearance, StyleSheet};
+use iced::widget::progress_bar::{Appearance, StyleSheet};
 
 #[derive(Clone, Copy, Debug)]
 pub struct ProgressBar {

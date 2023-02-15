@@ -4,7 +4,7 @@ pub mod serial;
 
 use crate::{Border, Color, Theme};
 
-use iced_native::widget::pick_list::{Appearance, StyleSheet};
+use iced::widget::pick_list::{Appearance, StyleSheet};
 
 use serial::{PicklistMenuComponent, PicklistStateComponent};
 

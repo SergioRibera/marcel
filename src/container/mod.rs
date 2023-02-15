@@ -4,7 +4,7 @@ pub mod serial;
 
 use crate::{Border, Color, Theme};
 
-use iced_native::widget::container::{Appearance, StyleSheet};
+use iced::widget::container::{Appearance, StyleSheet};
 
 #[derive(Clone, Copy, Debug)]
 pub struct Container {
